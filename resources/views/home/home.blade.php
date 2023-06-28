@@ -1,43 +1,251 @@
 @extends('layout.main')
 
 @section('content')
-<div class="col-xl-8 py-5 px-md-5">
-    <div class="row pt-md-4">
-        {{-- @foreach ($posts as $item)    
-            <div class="col-md-12">
-                <div class="blog-entry ftco-animate d-md-flex">
-                    <a href="{{ route('postShow', $item->id) }}" class="img img-2" style="background-image: url({{ asset('storage/'.$item->thumbnail) }});"></a>
-                    <div class="text text-2 pl-md-4">
-                        <h3 class="mb-2"><a href="{{ route('postShow', $item->id) }}">{{ $item->title }}</a></h3>
-                        <div class="meta-wrap">
-                            <p class="meta">
-                                <span><i class="icon-calendar mr-2"></i>{{ date('d-m-Y', strtotime($item->created_at)) }}</span>
-                            </p>
+    <!-- cards -->
+    <div class="w-full px-6 py-6 mx-auto">
+        <!-- row 1 -->
+        <div class="flex flex-wrap -mx-3">
+            <!-- card1 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Alternative</p>
+                                    <h5 class="mb-0 font-bold">
+                                        $53,000
+                                        <span class="text-sm leading-normal font-weight-bolder text-lime-500">+55%</span>
+                                    </h5>
+                                    <a class="mt-auto mb-0 text-sm font-semibold leading-normal group text-slate-500"
+                                        href="javascript:;">
+                                        Read More
+                                        <i
+                                            class="fas fa-arrow-right ease-bounce text-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
+                                    <i class="fas fa-filter leading-none text-lg relative top-3.5 text-white"></i>
+                                </div>
+                            </div>
                         </div>
-                        <div class="tagcloud">
-                            @foreach ($item->categories as $row)
-                                <a href="{{ route('search', ['category' => $row->id]) }}" class="tag-cloud-link">{{ $row->name }}</a>
-                            @endforeach
-                        </div>
-                        <p class="mb-4">
-                            @if (strlen($item->description) > 150)
-                                {{ substr($item->description, 0, 150) . '...' }}
-                            @else
-                                {{ $item->description }}
-                            @endif
-                        </p>
-                        <p><a href="{{ route('postShow', $item->id) }}" class="btn-custom">Baca selengkapnya <span class="ion-ios-arrow-forward"></span></a></p>
                     </div>
                 </div>
             </div>
-        @endforeach --}}
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="block-27 text-center">
-                {{-- {{ $posts->links() }} --}}
+
+            <!-- card2 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Category</p>
+                                    <h5 class="mb-0 font-bold">
+                                        2,300
+                                        <span class="text-sm leading-normal font-weight-bolder text-lime-500">+3%</span>
+                                    </h5>
+                                    <a class="mt-auto mb-0 text-sm font-semibold leading-normal group text-slate-500"
+                                        href="javascript:;">
+                                        Read More
+                                        <i
+                                            class="fas fa-arrow-right ease-bounce text-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
+                                    <i class="fas fa-solid fa-box leading-none text-lg relative top-3.5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- card3 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Sub Category</p>
+                                    <h5 class="mb-0 font-bold">
+                                        +3,462
+                                        <span class="text-sm leading-normal text-red-600 font-weight-bolder">-2%</span>
+                                    </h5>
+                                    <a class="mt-auto mb-0 text-sm font-semibold leading-normal group text-slate-500"
+                                        href="javascript:;">
+                                        Read More
+                                        <i
+                                            class="fas fa-arrow-right ease-bounce text-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
+                                    <i
+                                        class="fas fa-duotone fa-sitemap leading-none text-lg relative top-3.5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- card4 -->
+            <div class="w-full max-w-full px-3 sm:w-1/2 sm:flex-none xl:w-1/4">
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Criteria</p>
+                                    <h5 class="mb-0 font-bold">
+                                        $103,430
+                                        <span class="text-sm leading-normal font-weight-bolder text-lime-500">+5%</span>
+                                    </h5>
+                                    <a class="mt-auto mb-0 text-sm font-semibold leading-normal group text-slate-500"
+                                        href="javascript:;">
+                                        Read More
+                                        <i
+                                            class="fas fa-arrow-right ease-bounce text-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
+                                    <i class="fas fa-th-list leading-none text-lg relative top-3.5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- row 2 -->
+        <div class="flex flex-wrap mt-6 -mx-3">
+            <!-- card1 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total User</p>
+                                    <h5 class="mb-0 font-bold">
+                                        $53,000
+                                        <span class="text-sm leading-normal font-weight-bolder text-lime-500">+55%</span>
+                                    </h5>
+                                    <a class="mt-auto mb-0 text-sm font-semibold leading-normal group text-slate-500"
+                                        href="javascript:;">
+                                        Read More
+                                        <i
+                                            class="fas fa-arrow-right ease-bounce text-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
+                                    <i class="fas fa-regular fa-users leading-none text-lg relative top-3.5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- card2 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p class="mb-0 font-sans text-sm font-semibold leading-normal">Total Role</p>
+                                    <h5 class="mb-0 font-bold">
+                                        2,300
+                                        <span class="text-sm leading-normal font-weight-bolder text-lime-500">+3%</span>
+                                    </h5>
+                                    <a class="mt-auto mb-0 text-sm font-semibold leading-normal group text-slate-500"
+                                        href="javascript:;">
+                                        Read More
+                                        <i
+                                            class="fas fa-arrow-right ease-bounce text-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
+                                    <i class="fas fa-user-tag leading-none text-lg relative top-3.5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- card3 -->
+            <div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="flex-auto p-4">
+                        <div class="flex flex-row -mx-3">
+                            <div class="flex-none w-2/3 max-w-full px-3">
+                                <div>
+                                    <p class="mb-0 font-sans text-sm font-semibold leading-normal">Best Employee of the
+                                        month in ...</p>
+                                    <h5 class="mb-0 font-bold">
+                                        +3,462
+                                        <span class="text-sm leading-normal text-red-600 font-weight-bolder">-2%</span>
+                                    </h5>
+                                    <a class="mt-auto mb-0 text-sm font-semibold leading-normal group text-slate-500"
+                                        href="javascript:;">
+                                        Read More
+                                        <i
+                                            class="fas fa-arrow-right ease-bounce text-sm group-hover:translate-x-1.25 ml-1 leading-normal transition-all duration-200"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="px-3 text-right basis-1/3">
+                                <div
+                                    class="inline-block w-12 h-12 text-center rounded-lg bg-gradient-to-tl from-purple-700 to-pink-500">
+                                    <i class="fas fa-medal leading-none text-lg relative top-3.5 text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="pt-4">
+            <div class="w-full px-6 mx-auto">
+                <div class="flex flex-wrap items-center -mx-3 lg:justify-between">
+                    <div class="w-full max-w-full px-3 mt-0 mb-6 shrink-0 lg:mb-0 lg:w-1/2 lg:flex-none">
+                        <div class="text-sm leading-normal text-center text-slate-500 lg:text-left">
+                            ©
+                            <script>
+                                document.write(new Date().getFullYear() + ",");
+                            </script>
+                            made with <i class="fa fa-heart"></i> by
+                            <a href="https://www.creative-tim.com" class="font-semibold text-slate-700"
+                                target="_blank">Marwah & Creative Tim</a>
+                            for a better web.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
-</div>
+    <!-- end cards -->
 @endsection
