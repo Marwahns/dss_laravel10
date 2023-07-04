@@ -33,6 +33,7 @@
       @yield('content')
       @include('layout.partial.footer')
       @vite('resources/js/app.js')
+      
+    @include('layout.partial.script')
   </body>
-  @include('layout.partial.script')
 </html>

@@ -20,3 +20,5 @@ Route::get('/', function () {
 //route resource
 # Dashboard
 Route::resource('/home', \App\Http\Controllers\HomeController::class);
+# Criteria
+Route::resource('/criteria', \App\Http\Controllers\CriteriaController::class);

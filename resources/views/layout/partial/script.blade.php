@@ -10,7 +10,4 @@
 <script src="./assets/js/soft-ui-dashboard-tailwind.js?v=1.0.5" async></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-    // ($('#idSupplier').val('1'))
-</script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@2"></script>
