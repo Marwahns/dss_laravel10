@@ -22,3 +22,5 @@ Route::get('/', function () {
 Route::resource('/home', \App\Http\Controllers\HomeController::class);
 # Criteria
 Route::resource('/criteria', \App\Http\Controllers\CriteriaController::class);
+# Alternative
+Route::resource('/alternative', \App\Http\Controllers\AlternativeController::class);

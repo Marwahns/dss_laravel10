@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CriteriaSeeder::class,
+            AlternativeSeeder::class,
         ]);
     }
 }
