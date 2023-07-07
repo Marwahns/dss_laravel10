@@ -20,15 +20,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png" />
     <link rel="icon" type="image/png" href="./assets/img/favicon.png" />
-    <title>Soft UI Dashboard Tailwind</title>
-    {{-- <title>{{ $title }}</title> --}}
+    @yield('title')
     @include('layout.partial.link')
     @vite('resources/css/app.css')
   </head>
 
   <body class="m-0 font-sans text-base antialiased font-normal leading-default bg-gray-50 text-slate-500">
     @include('layout.partial.header')
-
       
       @yield('content')
       @include('layout.partial.footer')

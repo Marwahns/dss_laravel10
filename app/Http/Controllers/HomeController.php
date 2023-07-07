@@ -10,6 +10,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('home.home');
+        $pageTitle = 'VIKOR | Dashboard'; // Judul halaman
+        $breadcrumb = 'Dashboard'; // breadcrumb
+        $criteria = Criteria::count();
+        return view('home.home', compact('pageTitle', 'breadcrumb', 'criteria'));
     }
 }
