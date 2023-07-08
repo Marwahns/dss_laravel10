@@ -21,21 +21,19 @@ class Sample extends Model
     ];
 
     ######################################## Detail Sample ########################################
-    public function detailSample($id = null)
+    public function detailSample($alternatif_id = null)
     {
-        // $builder = DB::table('samples')
-        //     ->select('samples.id', 'samples.criteria_id', 'samples.alternatif_id', 'samples.nilai', 'criterias.id As idCriteria', 'criterias.criteria','alternatives.id As idAlternative', 'alternatives.nama_alternative')
-        //     ->join('criterias', 'criterias.id', '=', 'samples.criteria_id')
-        //     ->join('alternatives', 'alternatives.id', '=', 'samples.alternatif_id');
-        // if (empty($id)) {
-        //     return $builder->get(); // tampilkan semua data
-        //     // print_r($builder->toSql());
-        //     // die;
-        // } else {
-        //     // tampilkan data sesuai id/barcode
-        //     return $builder->where('samples.id', $id)->get(1)->getRow();
-        // }
-
-        
+        $builder = DB::table('samples')
+            ->select('samples.id', 'samples.criteria_id', 'samples.alternatif_id', 'samples.nilai', 'criterias.id As idCriteria', 'criterias.criteria', 'alternatives.id As idAlternative', 'alternatives.nama_alternative')
+            ->join('criterias', 'criterias.id', '=', 'samples.criteria_id')
+            ->join('alternatives', 'alternatives.id', '=', 'samples.alternatif_id');
+        if (empty($alternatif_id)) {
+            return json_decode(json_encode($builder->get()), true); // convert collection to array
+            // print_r($builder->toSql());
+            // die;
+        } else {
+            // tampilkan data sesuai id/barcode
+            return json_decode(json_encode($builder->where('samples.alternatif_id', $alternatif_id)->get()), true); // return single row as array
+        }
     }
 }

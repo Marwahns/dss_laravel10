@@ -27,22 +27,19 @@ class Vikor_CalculationController extends Controller
 
         // get data samples
         $getSamples = $tb_sample->detailSample();
-        $alternatives = Alternative::all();
         $getAlternative = $tb_alternative->detailAlternative();
-        
-		// $i=0;
-        echo '<pre>';
-		foreach($getAlternative as $key => $value){
-            // $getAlternative[$key]['criteria_1'] = $tb_alternative->detailAlternative($value['id']);
-            print_r($tb_alternative->detailAlternative($value['id']));
-            
-		}
 
-        // echo '<pre>';
-        // print_r($getAlternative);
-        die;
+        // $i=0;
+        foreach ($getAlternative as $key => $value) {
+            $detailSampleByAlternativeId = $tb_sample->detailSample($value['id']);
+            // print_r($detailSampleByAlternativeId); die;
+            foreach ($detailSampleByAlternativeId as $key2 => $value2) {
+                $getAlternative[$key]['nilai_c' . $value2['criteria_id']] = $value2['nilai'];
+            }
+        }
+        // echo '<pre>'; print_r($getAlternative); die;
 
         //render view with posts
-        return view('calculation.index', compact('getSamples', 'samples', 'pageTitle', 'breadcrumb'));
+        return view('calculation.index', compact('getAlternative', 'samples', 'pageTitle', 'breadcrumb'));
     }
 }

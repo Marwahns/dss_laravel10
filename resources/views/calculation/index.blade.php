@@ -76,7 +76,7 @@
                                         $i = 1;
                                     @endphp
                                     {{-- Iterasi alternatif --}}
-                                    @forelse ($getSamples as $sample)
+                                    @forelse ($getAlternative as $key => $sample)
                                         <tr>
                                             <!-- Nomor -->
                                             <td
@@ -91,7 +91,7 @@
                                                 <div class="flex px-2 py-1">
                                                     <div class="flex flex-col justify-center">
                                                         <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $sample->nama_alternative }}
+                                                            {{ $sample['nama_alternative'] }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -103,7 +103,7 @@
                                                 <div class="flex px-2 py-1">
                                                     <div class="flex flex-col justify-center">
                                                         <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $sample->nilai }}
+                                                            {{ $sample['nilai_c1'] }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -114,7 +114,7 @@
                                                 <div class="flex px-2 py-1">
                                                     <div class="flex flex-col justify-center">
                                                         <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $sample->nilai }}
+                                                            {{ $sample['nilai_c2'] }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -125,7 +125,7 @@
                                                 <div class="flex px-2 py-1">
                                                     <div class="flex flex-col justify-center">
                                                         <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $sample->nilai }}
+                                                            {{ $sample['nilai_c3'] }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -136,7 +136,7 @@
                                                 <div class="flex px-2 py-1">
                                                     <div class="flex flex-col justify-center">
                                                         <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $sample->nilai }}
+                                                            {{ $sample['nilai_c4'] }}
                                                         </p>
                                                     </div>
                                                 </div>

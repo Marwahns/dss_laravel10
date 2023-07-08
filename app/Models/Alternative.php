@@ -26,10 +26,9 @@ class Alternative extends Model
         $builder = DB::table('alternatives')
             ->select('alternatives.id', 'alternatives.nama_alternative', 'alternatives.kode_alternative');
         if (empty($id)) {
-            return $builder->get(); // tampilkan semua data
+            return json_decode(json_encode($builder->get()), true); // convert collection to array
         } else {
-            // tampilkan data sesuai id
-            return $builder->where('alternatives.id', $id)->get(1)->getRow();
+            return json_decode(json_encode($builder->where('alternatives.id', $id)->first()), true); // convert object to array
         }
     }
 }
