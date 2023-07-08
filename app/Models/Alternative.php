@@ -20,7 +20,7 @@ class Alternative extends Model
         'nama_alternative', 'kode_alternative'
     ];
 
-    ######################################## Detail Criteria ########################################
+    ######################################## Detail Alternative ########################################
     public function detailAlternative($id = null)
     {
         $builder = DB::table('alternatives')
@@ -28,7 +28,7 @@ class Alternative extends Model
         if (empty($id)) {
             return $builder->get(); // tampilkan semua data
         } else {
-            // tampilkan data sesuai id/barcode
+            // tampilkan data sesuai id
             return $builder->where('alternatives.id', $id)->get(1)->getRow();
         }
     }

@@ -13,14 +13,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home.home');
-});
+// Route::get('/', function () {
+//     return view('home.home');
+// });
 
 //route resource
+#
+Route::resource('/', \App\Http\Controllers\HomeController::class);
 # Dashboard
 Route::resource('/home', \App\Http\Controllers\HomeController::class);
 # Criteria
 Route::resource('/criteria', \App\Http\Controllers\CriteriaController::class);
 # Alternative
 Route::resource('/alternative', \App\Http\Controllers\AlternativeController::class);
+# Calculation
+Route::resource('/calculation', \App\Http\Controllers\Vikor_CalculationController::class);
