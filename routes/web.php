@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 #
 Route::resource('/', \App\Http\Controllers\HomeController::class);
 # Dashboard
+Route::resource('/', \App\Http\Controllers\HomeController::class);
 Route::resource('/home', \App\Http\Controllers\HomeController::class);
 # Criteria
 Route::resource('/criteria', \App\Http\Controllers\CriteriaController::class);
