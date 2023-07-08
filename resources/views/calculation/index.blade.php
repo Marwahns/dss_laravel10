@@ -23,19 +23,17 @@
     <div class="w-full px-6 py-6 mx-auto">
         <div class="flex flex-wrap -mx-3">
             <div class="w-full max-w-full px-3">
+                {{-- Langkah pertama : menyusun alternatif dan kriteria ke dalam bentuk matriks keputusan (F) sebagai berikut: --}}
                 <div
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                         <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="flex items-center flex-none w-1/2 max-w-full px-3">
-                                <h6 class="mb-0" id="SubTitle">Matriks Keputusan</h6>
+                            <div class="flex items-center flex-none max-w-full px-3">
+                                <h6 class="mb-0" id="SubTitle"><b>Langkah pertama:</b> menyusun alternatif dan kriteria
+                                    ke dalam bentuk matriks keputusan (F) sebagai berikut:</h6>
                             </div>
                         </div>
                     </div>
-
-                    @if (session('status'))
-                        <div class="alert alert-success">{{ session('status') }}</div>
-                    @endif
 
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
@@ -153,6 +151,55 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- Langkah kedua : menentukan bobot kriteria. Berdasarkan data yang diberikan di atas, maka diperoleh data bobot kriteria (W) sebagai berikut: --}}
+                <div
+                    class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                        <div class="flex flex-wrap -mx-3 mb-4">
+                            <div class="flex items-center flex-none max-w-full px-3">
+                                <h6 class="mb-0" id="SubTitle"><b>Langkah kedua: </b>menentukan bobot kriteria.
+                                    Berdasarkan data bobot kriteria yang sudah di masukkan, maka diperoleh data bobot
+                                    kriteria (W) sebagai berikut:</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-auto px-0 pt-0 pb-2">
+                        <div class="p-0 overflow-x-auto">
+                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                                <thead class="align-bottom">
+                                    <tr>
+                                        <!-- Alternative -->
+                                        @foreach ($criterias as $criteria)
+                                            <th
+                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                {{ $criteria->criteria }}</th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <!-- Alternative -->
+                                        @foreach ($criterias as $criteria)
+                                            <td
+                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                                <div class="flex px-2 py-1">
+                                                    <div class="flex flex-col justify-center">
+                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
+                                                            {{ $criteria->weight }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                </tbody>
+                            </table>
+                            {{ $samples->links('pagination::tailwind') }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -167,7 +214,7 @@
                             </script>
                             made with <i class="fa fa-heart"></i> by
                             <a href="https://www.creative-tim.com" class="font-semibold text-slate-700"
-                                target="_blank">Annisa & Creative Tim</a>
+                                target="_blank">VIKOR & Creative Tim</a>
                             for a better web.
                         </div>
                     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alternative;
+use App\Models\Criteria;
 use App\Models\Sample;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -18,6 +19,7 @@ class Vikor_CalculationController extends Controller
     {
         $tb_sample = new Sample();
         $tb_alternative = new Alternative();
+        $tb_criteria = new Criteria();
 
         $pageTitle = 'VIKOR | Calculation';
         $breadcrumb = 'Calculation'; // breadcrumb
@@ -28,6 +30,7 @@ class Vikor_CalculationController extends Controller
         // get data samples
         $getSamples = $tb_sample->detailSample();
         $getAlternative = $tb_alternative->detailAlternative();
+        $criterias =  $tb_criteria->detailCriteria();
 
         // $i=0;
         foreach ($getAlternative as $key => $value) {
@@ -40,6 +43,6 @@ class Vikor_CalculationController extends Controller
         // echo '<pre>'; print_r($getAlternative); die;
 
         //render view with posts
-        return view('calculation.index', compact('getAlternative', 'samples', 'pageTitle', 'breadcrumb'));
+        return view('calculation.index', compact('getAlternative', 'samples', 'pageTitle', 'breadcrumb', 'criterias'));
     }
 }
