@@ -68,7 +68,7 @@
                                 @php
                                 $i = 1;
                                 @endphp
-                                @forelse ($alternative_ as $alternative)
+                                @forelse ($alternatives as $alternative)
                                 <tr>
                                     <!-- Nomor -->
                                     <td class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">

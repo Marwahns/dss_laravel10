@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Alternative;
 use App\Models\Criteria;
 use App\Models\Sample;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class Vikor_CalculationController extends Controller
@@ -14,7 +15,7 @@ class Vikor_CalculationController extends Controller
      *
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
         $tb_sample = new Sample();
         $tb_alternative = new Alternative();
@@ -55,13 +56,19 @@ class Vikor_CalculationController extends Controller
         [$utilityMeasuresS, $utilityMeasuresR] = $this->calculateUtilityMeasures($criterias, $matrixNormalized);
 
         // Panggil fungsi calculateQValues
-        [$Qs] = $this->calculateQValues($utilityMeasuresS, $utilityMeasuresR, $getAlternative);
+        [$Qs, $Qb, $Qc] = $this->calculateQValues($utilityMeasuresS, $utilityMeasuresR, $getAlternative);
 
         // Panggil fungsi calculateRankings
-        $rankings = $this->calculateRankings($getAlternative, $Qs);
+        [$rankings, $rankingsB, $rankingsC, $alternativeQ, $qValueBestAlternative, $alternativeWithMinQs] = $this->calculateRankings($getAlternative, $Qs, $Qb, $Qc);
+
+        // Panggil fungsi checkAcceptableAdvantage
+        [$acceptableAdvantage, $difference] = $this->checkAcceptableAdvantage($getSamples, $alternativeQ, $qValueBestAlternative);
+
+        // Panggil fungsi checkAcceptableStability
+        [$differenceQiB, $differenceQiC, $data] = $this->checkAcceptableStability($rankingsB, $rankingsC, $qValueBestAlternative);
 
         //render view with posts
-        return view('calculation.index', compact('getAlternative', 'samples', 'pageTitle', 'breadcrumb', 'criterias', 'alternatives', 'maxValues', 'minValues', 'matrixNormalized', 'weightedNormalizedValues', 'utilityMeasuresS', 'utilityMeasuresR', 'Qs', 'rankings'));
+        return view('calculation.index', compact('getAlternative', 'samples', 'pageTitle', 'breadcrumb', 'criterias', 'alternatives', 'maxValues', 'minValues', 'matrixNormalized', 'weightedNormalizedValues', 'utilityMeasuresS', 'utilityMeasuresR', 'Qs', 'Qb', 'Qc', 'rankings', 'rankingsB', 'rankingsC', 'alternativeQ', 'qValueBestAlternative', 'alternativeWithMinQs', 'acceptableAdvantage', 'difference', 'differenceQiB', 'differenceQiC', 'data'));
     }
 
     public function calculateMinMaxValues($getAlternative, $criterias)
@@ -190,7 +197,12 @@ class Vikor_CalculationController extends Controller
     public function calculateQValues($utilityMeasuresS, $utilityMeasuresR, $getAlternative)
     {
         $a = 0.5; // Nilai bobot relatif, bisa disesuaikan
+        $b = 0.44;
+        $c = 0.55;
+
         $Qs = []; // Array untuk menyimpan nilai indeks VIKOR dari setiap alternatif
+        $Qb = [];
+        $Qc = [];
 
         $maxS = max($utilityMeasuresS);
         $minS = min($utilityMeasuresS);
@@ -202,22 +214,91 @@ class Vikor_CalculationController extends Controller
             $S = $utilityMeasuresS[$index];
 
             $Q = ($a * ($R - min($utilityMeasuresR))) / ($maxS - min($utilityMeasuresS)) + ((1 - $a) * ($S - min($utilityMeasuresS))) / ($maxS - min($utilityMeasuresS));
-
             $Q = $a * (($S - $minS) / ($maxS - $minS)) + (1 - $a) * (($R - $minR) / ($maxR - $minR));
 
+            $QbValue = ($b * ($R - min($utilityMeasuresR))) / ($maxS - min($utilityMeasuresS)) + ((1 - $b) * ($S - min($utilityMeasuresS))) / ($maxS - min($utilityMeasuresS));
+            $QbValue = $b * (($S - $minS) / ($maxS - $minS)) + (1 - $b) * (($R - $minR) / ($maxR - $minR));
+
+            $QcValue = ($c * ($R - min($utilityMeasuresR))) / ($maxS - min($utilityMeasuresS)) + ((1 - $c) * ($S - min($utilityMeasuresS))) / ($maxS - min($utilityMeasuresS));
+            $QcValue = $c * (($S - $minS) / ($maxS - $minS)) + (1 - $c) * (($R - $minR) / ($maxR - $minR));
+
             $Qs[] = $Q;
+            $Qb[] = $QbValue;
+            $Qc[] = $QcValue;
         }
 
-        return [$Qs];
+        return [$Qs, $Qb, $Qc];
     }
 
-    public function calculateRankings($getAlternative, $Qs)
+    public function calculateRankings($getAlternative, $Qs, $Qb, $Qc)
     {
         $rankings = array_map(null, $getAlternative, $Qs); // Combine $getAlternative and $Qs arrays
+        $rankingsB = array_map(null, $getAlternative, $Qb);
+        $rankingsC = array_map(null, $getAlternative, $Qc);
 
         // Sort the rankings based on the Qs values in ascending order
         array_multisort(array_column($rankings, 1), SORT_ASC, $rankings);
+        array_multisort(array_column($rankingsB, 1), SORT_ASC, $rankingsB);
+        array_multisort(array_column($rankingsC, 1), SORT_ASC, $rankingsC);
 
-        return $rankings;
+        $qValueBestAlternative  = min($Qs);
+        $minQsIndex = array_search(min(array_column($rankings, 1)), array_column($rankings, 1));
+        $alternativeWithMinQs = $rankings[$minQsIndex][0]['nama_alternative'];
+
+        $alternativeIndex = 1; // Indeks alternatif kedua
+        $alternativeQ = $Qs[$alternativeIndex]; // Mengambil nilai Q pada alternatif kedua
+
+        return [$rankings, $rankingsB, $rankingsC, $alternativeQ, $qValueBestAlternative, $alternativeWithMinQs];
+    }
+
+    public function checkAcceptableAdvantage($sample, $alternativeQ, $qValueBestAlternative)
+    {
+        $acceptableAdvantage = true; // Variabel untuk menyimpan status Acceptable Advantage
+
+        //-- m adalah jumlah alternatif
+        $m = count($sample);
+
+        //-- menghitung nilai DQ
+        $DQ = 1 / ($m - 1);
+
+        $difference = $alternativeQ - $qValueBestAlternative;
+
+        if ($difference < $DQ) {
+            $acceptableAdvantage = false;
+        }
+
+        return [$acceptableAdvantage, $difference];
+    }
+
+    public function checkAcceptableStability($rankingsB, $rankingsC, $qValueBestAlternative)
+    {
+        $differenceQiB = [];
+        $differenceQiC = [];
+
+        foreach ($rankingsB as $ranking) {
+            $Qi = $ranking[1]; // Mengambil nilai Qi dari array $rankings
+            $differenceQiB[] = $Qi - $qValueBestAlternative;
+        }
+
+        foreach ($rankingsC as $ranking) {
+            $Qi = $ranking[1]; // Mengambil nilai Qi dari array $rankings
+            $differenceQiC[] = $Qi - $qValueBestAlternative;
+        }
+
+        // // Tampilkan hasil
+        // foreach ($differenceQiB as $index => $differenceQiB) {
+        //     $alternativeName = $rankingsB[$index][0]['nama_alternative'];
+        //     echo "Nilai Qi - QBest untuk alternatif $alternativeName: $differenceQiB<br>";
+        // }
+
+        // Menyiapkan data untuk dikirim ke view
+        $data = [
+            'rankings' => $rankingsB,
+            'qValueBestAlternative' => $qValueBestAlternative,
+            'differenceQiB' => $differenceQiB,
+            'differenceQiC' => $differenceQiC,
+        ];
+
+        return [$differenceQiB, $differenceQiC, $data];
     }
 }
