@@ -83,11 +83,11 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            
+
                                             @foreach ($criterias as $criteria)
                                                 <td
                                                     class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                    <div class="flex px-2 py-1">
+                                                    <div class="flex px-2 py-1 justify-center">
                                                         <div class="flex flex-col justify-center">
                                                             <p class="mb-0 text-xs leading-tight text-slate-400">
                                                                 {{ $alternative['nilai_c' . $criteria->id] }}
@@ -143,7 +143,7 @@
                                         @foreach ($criterias as $criteria)
                                             <td
                                                 class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
+                                                <div class="flex px-2 py-1 justify-center">
                                                     <div class="flex flex-col justify-center">
                                                         <p class="mb-0 text-xs leading-tight text-slate-400">
                                                             {{ $criteria->weight }}
@@ -202,7 +202,7 @@
                                     @endphp
 
                                     <!-- Criteria Weight -->
-                                    @foreach ($getAlternative as $key => $sample)
+                                    @foreach ($getAlternative as $alternative)
                                         <tr>
                                             <!-- Nomor -->
                                             <td
@@ -211,61 +211,30 @@
                                                     class="text-xs font-semibold leading-tight text-slate-400">{{ $i++ }}</span>
                                             </td>
 
+                                            <!-- Alternative -->
                                             <td
                                                 class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                 <div class="flex px-2 py-1">
                                                     <div class="flex flex-col justify-center">
                                                         <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $sample['nama_alternative'] }}
+                                                            {{ $alternative['nama_alternative'] }}
                                                         </p>
                                                     </div>
                                                 </div>
                                             </td>
 
-                                            <!-- Criteria -->
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $sample['nilai_c1'] }}
-                                                        </p>
+                                            @foreach ($criterias as $criteria)
+                                                <td
+                                                    class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                                    <div class="flex px-2 py-1 justify-center">
+                                                        <div class="flex flex-col justify-center">
+                                                            <p class="mb-0 text-xs leading-tight text-slate-400">
+                                                                {{ $alternative['nilai_c' . $criteria->id] }}
+                                                            </p>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </td>
-
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $sample['nilai_c2'] }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $sample['nilai_c3'] }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $sample['nilai_c4'] }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
+                                                </td>
+                                            @endforeach
 
                                         </tr>
                                     @endforeach
@@ -288,17 +257,38 @@
                                             </div>
                                         </td>
 
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <div class="flex px-2 py-1">
-                                                <div class="flex flex-col justify-center">
-                                                    <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                        {{ max([$sample['nilai_c2']]) }}</p>
-                                                </div>
-                                            </div>
-                                        </td>
+                                        @php
+                                            $maxValues = []; // Initialize an array to store the maximum values per column
+                                            
+                                            // Initialize the maxValues array with all criteria IDs
+                                            foreach ($criterias as $criteria) {
+                                                $maxValues[$criteria->id] = null;
+                                            }
+                                        @endphp
 
+                                        @foreach ($getAlternative as $alternative)
+                                            @foreach ($criterias as $criteria)
+                                                @php
+                                                    $criteriaValue = $alternative['nilai_c' . $criteria->id];
+                                                    $maxValue = is_array($criteriaValue) ? max($criteriaValue) : $criteriaValue;
+                                                    
+                                                    // Update the maximum value per column if necessary
+                                                    if ($maxValue !== null && ($maxValues[$criteria->id] === null || $maxValue > $maxValues[$criteria->id])) {
+                                                        $maxValues[$criteria->id] = $maxValue;
+                                                    }
+                                                @endphp
+                                            @endforeach
+                                        @endforeach
+
+                                        @php
+                                            // Display the maximum values per column
+                                            foreach ($maxValues as $criteriaId => $maxValue) {
+                                                echo "<td class='px-6 py-3 text-center font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400'><span
+                                                class='text-xs font-semibold leading-tight text-slate-400'>$maxValue</span></td>";
+                                            }
+                                        @endphp
                                     </tr>
+
                                     <tr>
                                         <!-- Nomor -->
                                         <td
@@ -308,13 +298,45 @@
                                         </td>
 
                                         <td
-                                            class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                            class="p-2 te align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                             <div class="flex px-2 py-1">
                                                 <div class="flex flex-col justify-center">
                                                     <p class="mb-0 text-xs leading-tight text-slate-400">F-</p>
                                                 </div>
                                             </div>
                                         </td>
+
+                                        @php
+                                            $minValues = []; // Initialize an array to store the minimum values per column
+                                            
+                                            // Initialize the minValues array with all criteria IDs
+                                            foreach ($criterias as $criteria) {
+                                                $minValues[$criteria->id] = null;
+                                            }
+                                        @endphp
+
+                                        @foreach ($getAlternative as $alternative)
+                                            @foreach ($criterias as $criteria)
+                                                @php
+                                                    $criteriaValue = $alternative['nilai_c' . $criteria->id];
+                                                    $minValue = is_array($criteriaValue) ? min($criteriaValue) : $criteriaValue;
+                                                    $showMinValue = $minValue !== null ? 'min = ' . $minValue : '';
+                                                    
+                                                    // Update the minimum value per column if necessary
+                                                    if ($minValue !== null && ($minValues[$criteria->id] === null || $minValue < $minValues[$criteria->id])) {
+                                                        $minValues[$criteria->id] = $minValue;
+                                                    }
+                                                @endphp
+                                            @endforeach
+                                        @endforeach
+
+                                        @php
+                                            // Display the minimum values per column
+                                            foreach ($minValues as $criteriaId => $minValue) {
+                                                echo "<td class='px-6 text-center py-3 font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400'><span
+                                                class='text-xs font-semibold leading-tight text-slate-400'>$minValue</span></td>";
+                                            }
+                                        @endphp
                                     </tr>
                                 </tbody>
                             </table>
