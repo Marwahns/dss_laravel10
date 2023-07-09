@@ -59,9 +59,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
                                     {{-- Iterasi alternatif --}}
                                     @forelse ($getAlternative as $alternative)
                                         <tr>
@@ -69,7 +66,7 @@
                                             <td
                                                 class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $i++ }}</span>
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
                                             </td>
 
                                             <!-- Alternative -->
@@ -174,41 +171,6 @@
 
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
-                            @php
-                                $maxValues = []; // Initialize an array to store the maximum values per column
-                                $minValues = []; // Initialize an array to store the minimum values per column
-                                
-                                // Initialize the maxValues array with all criteria IDs
-                                foreach ($criterias as $criteria) {
-                                    $maxValues[$criteria->id] = null;
-                                }
-                                
-                                // Initialize the minValues array with all criteria IDs
-                                foreach ($criterias as $criteria) {
-                                    $minValues[$criteria->id] = null;
-                                }
-                            @endphp
-
-                            @foreach ($getAlternative as $alternative)
-                                @foreach ($criterias as $criteria)
-                                    @php
-                                        $criteriaValue = $alternative['nilai_c' . $criteria->id];
-                                        $maxValue = is_array($criteriaValue) ? max($criteriaValue) : $criteriaValue;
-                                        $minValue = is_array($criteriaValue) ? min($criteriaValue) : $criteriaValue;
-                                        
-                                        // Update the maximum value per column if necessary
-                                        if ($maxValue !== null && ($maxValues[$criteria->id] === null || $maxValue > $maxValues[$criteria->id])) {
-                                            $maxValues[$criteria->id] = $maxValue;
-                                        }
-                                        
-                                        // Update the minimum value per column if necessary
-                                        if ($minValue !== null && ($minValues[$criteria->id] === null || $minValue < $minValues[$criteria->id])) {
-                                            $minValues[$criteria->id] = $minValue;
-                                        }
-                                    @endphp
-                                @endforeach
-                            @endforeach
-
                             <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                                 <thead class="align-bottom">
                                     <tr>
@@ -232,10 +194,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
-
                                     <!-- Criteria Weight -->
                                     @foreach ($getAlternative as $alternative)
                                         <tr>
@@ -243,7 +201,7 @@
                                             <td
                                                 class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $i++ }}</span>
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
                                             </td>
 
                                             <!-- Alternative -->
@@ -280,7 +238,7 @@
                                         <td
                                             class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                             <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ $i++ }}</span>
+                                                class="text-xs font-semibold leading-tight text-slate-400"></span>
                                         </td>
 
                                         <td
@@ -306,7 +264,7 @@
                                         <td
                                             class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                             <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ $i++ }}</span>
+                                                class="text-xs font-semibold leading-tight text-slate-400"></span>
                                         </td>
 
                                         <td
@@ -347,53 +305,6 @@
 
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
-
-                            @php
-                                $maxValues = []; // Initialize an array to store the maximum values per column
-                                $minValues = []; // Initialize an array to store the minimum values per column
-                                $matrixNormalized = [];
-                                
-                                // Initialize the maxValues and minValues arrays with all criteria IDs
-                                foreach ($criterias as $criteria) {
-                                    $maxValues[$criteria->id] = null;
-                                    $minValues[$criteria->id] = null;
-                                }
-                                
-                                // Find the maximum and minimum values per column
-                                foreach ($criterias as $criteria) {
-                                    foreach ($getAlternative as $alternative) {
-                                        $criteriaValue = $alternative['nilai_c' . $criteria->id];
-                                
-                                        // Update the maximum value per column if necessary
-                                        if ($maxValues[$criteria->id] === null || $criteriaValue > $maxValues[$criteria->id]) {
-                                            $maxValues[$criteria->id] = $criteriaValue;
-                                        }
-                                
-                                        // Update the minimum value per column if necessary
-                                        if ($minValues[$criteria->id] === null || $criteriaValue < $minValues[$criteria->id]) {
-                                            $minValues[$criteria->id] = $criteriaValue;
-                                        }
-                                    }
-                                }
-                                
-                                // Calculate the normalized values
-                                foreach ($getAlternative as $alternative) {
-                                    $normalizedRow = [];
-                                
-                                    foreach ($criterias as $criteria) {
-                                        $criteriaValue = $alternative['nilai_c' . $criteria->id];
-                                        $maxValue = $maxValues[$criteria->id];
-                                        $minValue = $minValues[$criteria->id];
-                                
-                                        // Calculate the normalized value using the formula
-                                        $normalizedValue = ($maxValue - $criteriaValue) / ($maxValue - $minValue);
-                                        $normalizedRow[] = $normalizedValue;
-                                    }
-                                
-                                    $matrixNormalized[] = $normalizedRow;
-                                }
-                            @endphp
-
                             <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                                 <thead class="align-bottom">
                                     <tr>
@@ -416,9 +327,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
                                     {{-- Iterasi alternatif --}}
                                     @forelse ($getAlternative as $alternative)
                                         <tr>
@@ -426,7 +334,7 @@
                                             <td
                                                 class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $i++ }}</span>
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
                                             </td>
 
                                             <!-- Alternative -->
@@ -477,29 +385,6 @@
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
 
-                            @php
-                                $weightedNormalizedValues = [];
-                                
-                                // Iterate over each alternative
-                                foreach ($matrixNormalized as $index => $row) {
-                                    $weightedRow = [];
-                                
-                                    // Iterate over each criterion
-                                    foreach ($criterias as $criteria) {
-                                        $criteriaId = $criteria->id;
-                                        $normalizedValue = $row[$criteriaId - 1];
-                                        $weight = $criteria->weight;
-                                
-                                        // Multiply the normalized value by the criterion weight
-                                        $weightedValue = $normalizedValue * $weight;
-                                
-                                        $weightedRow[] = $weightedValue;
-                                    }
-                                
-                                    $weightedNormalizedValues[$index] = $weightedRow;
-                                }
-                            @endphp
-
                             <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                                 <thead class="align-bottom">
                                     <tr>
@@ -522,9 +407,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
                                     {{-- Iterasi alternatif --}}
                                     @forelse ($getAlternative as $index => $alternative)
                                         <tr>
@@ -532,7 +414,7 @@
                                             <td
                                                 class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $i++ }}</span>
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
                                             </td>
 
                                             <!-- Alternative -->
@@ -583,44 +465,6 @@
 
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
-
-                            @php
-                                $weights = [];
-                                
-                                // Retrieve the weights from the criteria table
-                                foreach ($criterias as $criteria) {
-                                    $weights[] = $criteria->weight;
-                                }
-                                
-                                $utilityMeasuresS = [];
-                                $utilityMeasuresR = [];
-                                
-                                // Iterate over each row of the matrix
-                                foreach ($matrixNormalized as $row) {
-                                    $S = 0;
-                                
-                                    // Sum the values multiplied by the weight in the row
-                                    foreach ($row as $index => $value) {
-                                        $S += $value * $weights[$index];
-                                    }
-                                
-                                    $utilityMeasuresS[] = $S;
-                                
-                                    $maxValue = max($row); // Get the maximum value in the row
-                                
-                                    // Find the index of the maximum value in the row
-                                    $index = array_search($maxValue, $row);
-                                
-                                    // Retrieve the weight for the corresponding criterion
-                                    $weight = $weights[$index];
-                                
-                                    // Calculate the utility measure (R) by multiplying the maximum value with the weight
-                                    $R = $maxValue * $weight;
-                                
-                                    $utilityMeasuresR[] = $R;
-                                }
-                            @endphp
-
                             <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                                 <thead class="align-bottom">
                                     <tr>
@@ -645,9 +489,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
                                     {{-- Iterasi alternatif --}}
                                     @forelse ($getAlternative as $index => $alternative)
                                         <tr>
@@ -655,7 +496,7 @@
                                             <td
                                                 class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $i++ }}</span>
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
                                             </td>
 
                                             <!-- Alternative -->
@@ -721,12 +562,6 @@
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
                             <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                                @php
-                                    $maxS = max($utilityMeasuresS);
-                                    $minS = min($utilityMeasuresS);
-                                    $maxR = max($utilityMeasuresR);
-                                    $minR = min($utilityMeasuresR);
-                                @endphp
                                 <thead class="align-bottom">
                                     <tr>
                                         <!-- Nomor -->
@@ -756,25 +591,25 @@
                                         <td
                                             class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                             <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($maxS, 2) }}</span>
+                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(max($utilityMeasuresS), 2) }}</span>
                                         </td>
 
                                         <td
                                             class="px-6 py-3 font-bold text-center lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                             <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($minS, 2) }}</span>
+                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(min($utilityMeasuresS), 2) }}</span>
                                         </td>
 
                                         <td
                                             class="px-6 py-3 font-bold text-center lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                             <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($maxR, 2) }}</span>
+                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(max($utilityMeasuresR), 2) }}</span>
                                         </td>
 
                                         <td
                                             class="px-6 py-3 font-bold text-center lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                             <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($minR, 2) }}</span>
+                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(min($utilityMeasuresR), 2) }}</span>
                                         </td>
                                     </tr>
 
@@ -795,23 +630,6 @@
 
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
-
-                            @php
-                                $a = 0.5; // Nilai bobot relatif, bisa disesuaikan
-                                $Qs = []; // Array untuk menyimpan nilai indeks VIKOR dari setiap alternatif
-                                
-                                foreach ($getAlternative as $index => $alternative) {
-                                    $R = $utilityMeasuresR[$index];
-                                    $S = $utilityMeasuresS[$index];
-                                
-                                    $Q = ($a * ($R - min($utilityMeasuresR))) / ($maxS - min($utilityMeasuresS)) + ((1 - $a) * ($S - min($utilityMeasuresS))) / ($maxS - min($utilityMeasuresS));
-                                
-                                    $Q = $a * (($S - $minS) / ($maxS - $minS)) + (1 - $a) * (($R - $minR) / ($maxR - $minR));
-                                
-                                    $Qs[] = $Q;
-                                }
-                            @endphp
-
                             <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                                 <thead class="align-bottom">
                                     <tr>
@@ -832,9 +650,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $i = 1;
-                                    @endphp
                                     {{-- Iterasi alternatif --}}
                                     @forelse ($getAlternative as $index => $alternative)
                                         <tr>
@@ -842,7 +657,7 @@
                                             <td
                                                 class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $i++ }}</span>
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
                                             </td>
 
                                             <!-- Alternative -->
@@ -891,27 +706,6 @@
 
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
-                            @php
-                                $a = 0.5; // Nilai bobot relatif, bisa disesuaikan
-                                $Qs = []; // Array untuk menyimpan nilai indeks VIKOR dari setiap alternatif
-                                
-                                foreach ($getAlternative as $index => $alternative) {
-                                    $R = $utilityMeasuresR[$index];
-                                    $S = $utilityMeasuresS[$index];
-                                
-                                    $Q = ($a * ($R - min($utilityMeasuresR))) / ($maxS - min($utilityMeasuresS)) + ((1 - $a) * ($S - min($utilityMeasuresS))) / ($maxS - min($utilityMeasuresS));
-                                
-                                    $Q = $a * (($S - $minS) / ($maxS - $minS)) + (1 - $a) * (($R - $minR) / ($maxR - $minR));
-                                
-                                    $Qs[] = $Q;
-                                }
-                                
-                                $rankings = array_map(null, $getAlternative, $Qs); // Combine $getAlternative and $Qs arrays
-
-                                // Sort the rankings based on the Qs values in ascending order
-                                array_multisort(array_column($rankings, 1), SORT_ASC, $rankings);
-                            @endphp
-
                             <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
                                 <thead class="align-bottom">
                                     <tr>
@@ -936,23 +730,14 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $i = 1;
-                                        $rank = 1;
-                                    @endphp
                                     {{-- Iterasi alternatif --}}
                                     @forelse ($rankings as $rank => $ranking)
-                                        @php
-                                            $alternative = $ranking[0];
-                                            $Q = $ranking[1];
-                                        @endphp
-
                                         <tr>
                                             <!-- Nomor -->
                                             <td
                                                 class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $i++ }}</span>
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
                                             </td>
 
                                             <!-- Alternative -->
@@ -961,7 +746,7 @@
                                                 <div class="flex px-2 py-1">
                                                     <div class="flex flex-col justify-center">
                                                         <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $alternative['nama_alternative'] }}
+                                                            {{ $ranking[0]['nama_alternative'] }}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -970,14 +755,14 @@
                                             <!-- Q(i) -->
                                             <td
                                                 class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ number_format($Q, 4) }}
+                                                {{ number_format($ranking[1], 4) }}
                                             </td>
 
                                             <!-- Rank -->
-                                                <td
-                                                    class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                    {{ $rank + 1 }}
-                                                </td>
+                                            <td
+                                                class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                                {{ $rank + 1 }}
+                                            </td>
 
                                         </tr>
                                     @empty
