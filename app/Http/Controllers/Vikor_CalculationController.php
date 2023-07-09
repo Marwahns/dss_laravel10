@@ -31,6 +31,7 @@ class Vikor_CalculationController extends Controller
         $getSamples = $tb_sample->detailSample();
         $getAlternative = $tb_alternative->detailAlternative();
         $criterias =  $tb_criteria->detailCriteria();
+        $alternatives = Alternative::all();
 
         // $i=0;
         foreach ($getAlternative as $key => $value) {
@@ -43,6 +44,6 @@ class Vikor_CalculationController extends Controller
         // echo '<pre>'; print_r($getAlternative); die;
 
         //render view with posts
-        return view('calculation.index', compact('getAlternative', 'samples', 'pageTitle', 'breadcrumb', 'criterias'));
+        return view('calculation.index', compact('getAlternative', 'samples', 'pageTitle', 'breadcrumb', 'criterias', 'alternatives'));
     }
 }
