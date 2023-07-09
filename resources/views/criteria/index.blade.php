@@ -78,7 +78,6 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $i = 1;
                                         $totalWeight = 0; // Inisialisasi variabel totalWeight
                                     @endphp
                                     @forelse ($criterias as $criteria)
@@ -87,7 +86,7 @@
                                             <td
                                                 class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $i++ }}</span>
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
                                             </td>
 
                                             <!-- Criteria -->

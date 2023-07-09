@@ -53,7 +53,7 @@
                         class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                         <i class="fas fa-th-list leading-none relative"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Criteria</span>
+                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Criterion</span>
                 </a>
             </li>
 
@@ -64,7 +64,18 @@
                         class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
                         <i class="fas fa-filter leading-none relative"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Alternative</span>
+                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Alternatives</span>
+                </a>
+            </li>
+
+            <li class="mt-0.5 w-full">
+                <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors"
+                    href="#">
+                    <div
+                        class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
+                        <i class="fas fa-solid fa-database"></i>
+                    </div>
+                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Samples</span>
                 </a>
             </li>
 
@@ -94,7 +105,7 @@
                         class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                         <i class="fas fa-medal leading-none relative"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Exemplary Employee</span>
+                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Scholarship Recommendations</span>
                 </a>
             </li>
 
@@ -120,7 +131,7 @@
                         class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                         <i class="fas fa-id-card-alt leading-none relative"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Account Employee</span>
+                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Account Users</span>
                 </a>
             </li>
 
@@ -131,7 +142,7 @@
                       class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                       <i class="fas fa-user-tag leading-none relative"></i>
                   </div>
-                  <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Role</span>
+                  <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Roles</span>
               </a>
           </li>
 
