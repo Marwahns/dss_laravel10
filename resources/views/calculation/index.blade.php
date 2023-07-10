@@ -57,7 +57,7 @@
 
         {{-- Alert total alternative --}}
         <div id="alert-total-alternative"
-            class="p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800"
+            class="p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800 hidden"
             role="alert">
             <div class="flex items-center">
                 <svg class="flex-shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@
 
         {{-- Alert kondisi acceptable --}}
         <div id="alert-acceptable-advantage" class="hidden">
-            @if ($acceptableAdvantage && $data['acceptableStability'])
+            @if ($dataCheckAcceptableAdvantage['acceptableAdvantage'] && $dataCheckAcceptableStability['acceptableStability'])
                 <div id="alert-border-3"
                     class="flex items-center p-4 mb-4 text-green-800 border-t-4 border-green-300 bg-green-50 dark:text-green-400 dark:bg-gray-800 dark:border-green-800"
                     role="alert">
@@ -188,7 +188,7 @@
                                             class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Alternative</th>
 
-                                        @foreach ($criterias as $criteria)
+                                        @foreach ($criterion as $criteria)
                                             <th
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                                 {{ $criteria->criteria }}</th>
@@ -218,7 +218,7 @@
                                                 </div>
                                             </td>
 
-                                            @foreach ($criterias as $criteria)
+                                            @foreach ($criterion as $criteria)
                                                 <td
                                                     class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                     <div class="flex px-2 py-1 justify-center">
@@ -243,7 +243,7 @@
                                 <div class="flex items-center flex-none w-1/2 max-w-full px-3">
                                     <h6 class="mb-0">Total Alternatif: <h6 id="countAlternative"
                                             name="countAlternative" class="ml-1">
-                                            {{ $jumlahDataAlternative }}</h6>
+                                            {{ $countDataAlternative }}</h6>
                                     </h6>
                                 </div>
                             </div>
@@ -271,7 +271,7 @@
                                 <thead class="align-bottom">
                                     <tr>
                                         <!-- Criteria Weight -->
-                                        @foreach ($criterias as $criteria)
+                                        @foreach ($criterion as $criteria)
                                             <th
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                                 {{ $criteria->criteria }}</th>
@@ -281,7 +281,7 @@
                                 <tbody>
                                     <tr>
                                         <!-- Criteria -->
-                                        @foreach ($criterias as $criteria)
+                                        @foreach ($criterion as $criteria)
                                             <td
                                                 class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                 <div class="flex px-2 py-1 justify-center">
@@ -338,7 +338,7 @@
                                             Alternative
                                         </th>
 
-                                        @foreach ($criterias as $criteria)
+                                        @foreach ($criterion as $criteria)
                                             <th
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                                 {{ $criteria->criteria }}</th>
@@ -368,7 +368,7 @@
                                                 </div>
                                             </td>
 
-                                            @foreach ($criterias as $criteria)
+                                            @foreach ($criterion as $criteria)
                                                 <td
                                                     class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                                     <div class="flex px-2 py-1 justify-center">
@@ -400,7 +400,7 @@
                                             </div>
                                         </td>
 
-                                        @foreach ($maxValues as $criteriaId => $maxValue)
+                                        @foreach ($dataCalculateMinMaxValues['maxValues'] as $criteriaId => $maxValue)
                                             <td
                                                 class="px-6 py-3 text-center font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
@@ -425,7 +425,7 @@
                                             </div>
                                         </td>
 
-                                        @foreach ($minValues as $criteriaId => $minValue)
+                                        @foreach ($dataCalculateMinMaxValues['minValues'] as $criteriaId => $minValue)
                                             <td
                                                 class="px-6 py-3 text-center font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
@@ -469,7 +469,7 @@
                                             class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Alternative</th>
 
-                                        @foreach ($criterias as $criteria)
+                                        @foreach ($criterion as $criteria)
                                             <th
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                                 {{ $criteria->criteria }}</th>
@@ -549,7 +549,7 @@
                                             class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                             Alternative</th>
 
-                                        @foreach ($criterias as $criteria)
+                                        @foreach ($criterion as $criteria)
                                             <th
                                                 class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                                 {{ $criteria->criteria }}</th>
@@ -664,13 +664,13 @@
                                             <td
                                                 class="px-6 py-3 font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($utilityMeasuresS[$index], 2) }}</span>
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($dataCalculateUtilityMeasures['utilityMeasuresS'][$index], 2) }}</span>
                                             </td>
 
                                             <td
                                                 class="px-6 py-3 font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($utilityMeasuresR[$index], 2) }}</span>
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($dataCalculateUtilityMeasures['utilityMeasuresR'][$index], 2) }}</span>
                                             </td>
                                         </tr>
                                     @empty
@@ -741,25 +741,25 @@
                                         <td
                                             class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                             <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(max($utilityMeasuresS), 2) }}</span>
+                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(max($dataCalculateUtilityMeasures['utilityMeasuresS']), 2) }}</span>
                                         </td>
 
                                         <td
                                             class="px-6 py-3 font-bold text-center lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                             <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(min($utilityMeasuresS), 2) }}</span>
+                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(min($dataCalculateUtilityMeasures['utilityMeasuresS']), 2) }}</span>
                                         </td>
 
                                         <td
                                             class="px-6 py-3 font-bold text-center lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                             <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(max($utilityMeasuresR), 2) }}</span>
+                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(max($dataCalculateUtilityMeasures['utilityMeasuresR']), 2) }}</span>
                                         </td>
 
                                         <td
                                             class="px-6 py-3 font-bold text-center lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                             <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(min($utilityMeasuresR), 2) }}</span>
+                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(min($dataCalculateUtilityMeasures['utilityMeasuresR']), 2) }}</span>
                                         </td>
                                     </tr>
 
@@ -826,7 +826,7 @@
                                             <td
                                                 class="px-6 py-3 font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                                 <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($Qs[$index], 4) }}</span>
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($dataCalculateQValues['Qs'][$index], 4) }}</span>
                                             </td>
                                         </tr>
                                     @empty
@@ -882,7 +882,7 @@
                                 </thead>
                                 <tbody>
                                     {{-- Iterasi alternatif --}}
-                                    @forelse ($rankings as $rank => $ranking)
+                                    @forelse ($dataCalculateRankings['rankings'] as $rank => $ranking)
                                         <tr>
                                             <!-- Nomor -->
                                             <td
@@ -961,11 +961,11 @@
                                     <p class="mb-0 text-xs leading-normal text-black">m = Jumlah kriteria</p>
                                     <br>
                                     <p class="mb-0 text-xs leading-normal text-black">DQ =
-                                        <span id="dq">{{ number_format(1 / (count($criterias) - 1), 4) }}</span>
+                                        <span id="dq">{{ number_format(1 / (count($criterion) - 1), 4) }}</span>
                                     </p>
                                     <br>
                                     <p class="mb-0 text-xs leading-normal text-black">QA2 - QA1 =
-                                        <span id="difference">{{ $difference }}</span>
+                                        <span id="difference">{{ $dataCheckAcceptableAdvantage['difference'] }}</span>
                                     </p>
                                     <br>
                                     <h6 class="mb-0">Nilai selisih yang dihasilkan
@@ -1022,7 +1022,7 @@
                                 </thead>
                                 <tbody>
                                     {{-- Iterasi alternatif --}}
-                                    @forelse ($rankingsB as $rank => $ranking)
+                                    @forelse ($dataCalculateRankings['rankingsB'] as $rank => $ranking)
                                         <tr>
                                             <!-- Nomor -->
                                             <td
@@ -1052,7 +1052,7 @@
                                             <!-- Qm - QBest -->
                                             <td
                                                 class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ $differenceQiB[$rank] }}
+                                                {{ $dataCheckAcceptableStability['differenceQiB'][$rank] }}
                                             </td>
 
                                             <!-- Rank -->
@@ -1115,7 +1115,7 @@
                                 </thead>
                                 <tbody>
                                     {{-- Iterasi alternatif --}}
-                                    @forelse ($rankingsC as $rank => $ranking)
+                                    @forelse ($dataCalculateRankings['rankingsC'] as $rank => $ranking)
                                         <tr>
                                             <!-- Nomor -->
                                             <td
@@ -1145,7 +1145,8 @@
                                             <!-- Qm - QBest -->
                                             <td
                                                 class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ $differenceQiC[$rank] }}
+                                                {{-- {{ $differenceQiC[$rank] }} --}}
+                                                {{ $dataCheckAcceptableStability['differenceQiB'][$rank] }}
                                             </td>
 
                                             <!-- Rank -->
@@ -1172,12 +1173,12 @@
                             <div class="flex items-center flex-none max-w-full px-3">
                                 <div>
                                     <h6 class="mb-0">Hasil peringkat terbaik dari perankingan dengan v=0.55 adalah
-                                        <span id="alternativeWithMinQs">{{ $alternativeWithMinQs }}</span>, yang sama
+                                        <span id="alternativeWithMinQs">{{ $dataCalculateRankings['alternativeWithMinQs'] }}</span>, yang sama
                                         dengan peringkat terbaik dari perankingan Q. Hasil peringkat terbaik dari
                                         perankingan dengan 0.45 adalah
-                                        <span id="alternativeWithMinQsB">{{ $alternativeWithMinQsB }}</span> dan 0.5
+                                        <span id="alternativeWithMinQsB">{{ $dataCalculateRankings['alternativeWithMinQsB'] }}</span> dan 0.5
                                         adalah
-                                        <span id="alternativeWithMinQsC">{{ $alternativeWithMinQsC }}</span> , yang sama
+                                        <span id="alternativeWithMinQsC">{{ $dataCalculateRankings['alternativeWithMinQsC'] }}</span> , yang sama
                                         dengan peringkat terbaik dari perankingan Q. Berdasarkan hasil yang diperoleh dapat
                                         dibuktikan bahwa <b>kondisi Acceptable stability in decision making
                                             <span id="showCondition"></span>
@@ -1187,7 +1188,7 @@
                                         kedua kondisi tersebut <b>
                                             <span id="showCondition2"></span>
                                         </b></h6> <br>
-                                    <h6 class="mb-0 hidden" id="showNameAlternative"> <b>{{ $alternativeWithMinQs }}</b>
+                                    <h6 class="mb-0 hidden" id="showNameAlternative"> <b>{{ $dataCalculateRankings['alternativeWithMinQs'] }}</b>
                                         dapat diusulkan menjadi solusi
                                         kompromi dan merupakan peringkat terbaik dari perankingan penerima beasiswa dengan
                                         metode VIKOR</h6>
