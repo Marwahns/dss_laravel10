@@ -18,13 +18,13 @@ class CriteriaController extends Controller
     public function index(): View
     {
         $pageTitle = 'VIKOR | Criteria'; 
-        $breadcrumb = 'Criteria'; // breadcrumb
+        $breadcrumb = 'Criteria'; # breadcrumb
 
-        // get data criteria
-        $criterias = Criteria::latest()->paginate(10);
+        # get data criteria
+        $criterion = Criteria::latest()->paginate(10);
 
-        //render view with posts
-        return view('criteria.index', compact('criterias', 'pageTitle', 'breadcrumb'));
+        # render view 
+        return view('criteria.index', compact('criterion', 'pageTitle', 'breadcrumb'));
     }
 
     /**
@@ -35,22 +35,22 @@ class CriteriaController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        //validate form
+        # validate form
         $this->validate($request, [
             'criteria' => 'required|min:1|max:255',
             'type'     => 'required',
             'weight'   => 'required|min:1|max:5'
         ]);
 
-        //create post
+        # create criteria
         Criteria::create([
             'criteria' => $request->criteria,
             'type'     => $request->type,
             'weight'   => $request->weight
         ]);
 
-        //redirect to index
-        return redirect()->route('criteria.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        # redirect to index
+        return redirect()->route('criteria.index')->with(['success' => 'Data Saved Successfully!']);
     }
 
     /**
@@ -62,43 +62,43 @@ class CriteriaController extends Controller
      */
     public function update(Request $request, $id): RedirectResponse
     {
-        //validate form
+        # validate form
         $this->validate($request, [
             'criteria' => 'required|min:1|max:255',
             'type'     => 'required',
             'weight'   => 'required|min:1|max:5'
         ]);
 
-        //get criteria by ID
-        $criterias = Criteria::find($id);
+        # get criteria by ID
+        $criteria = Criteria::find($id);
 
-        //update criterias
-        $criterias->update([
+        # update criteria
+        $criteria->update([
             'criteria' => $request->criteria,
             'type'     => $request->type,
             'weight'   => $request->weight
         ]);
 
-        //redirect to index
-        return redirect()->route('criteria.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        # redirect to index
+        return redirect()->route('criteria.index')->with(['success' => 'Data Updated Successfully!']);
     }
 
     /**
      * destroy
      *
-     * @param  mixed $supplier
+     * @param  mixed $criteria
      * @return void
      */
     public function destroy($id): RedirectResponse
     {
-        //get supplier by ID
+        # get criteria by ID
         $criteria = Criteria::findOrFail($id);
 
-        //delete supplier
+        # delete criteria
         $criteria->delete();
 
-        //redirect to index
-        return redirect()->route('criteria.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        # redirect to index
+        return redirect()->route('criteria.index')->with(['success' => 'Data Deleted Successfully!']);
     }
 
 }

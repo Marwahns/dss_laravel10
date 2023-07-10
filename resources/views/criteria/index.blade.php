@@ -23,6 +23,14 @@
     <div class="w-full px-6 py-6 mx-auto">
         <div class="flex flex-wrap -mx-3">
             <div class="w-full max-w-full px-3">
+                @if (session('success'))
+                    <div class="alert alert-success"></div>
+                    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                        role="alert">
+                        <span class="font-medium">Success!</span> {{ session('success') }}
+                    </div>
+                @endif
+
                 <div
                     class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
                     <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
@@ -38,10 +46,6 @@
                             </div>
                         </div>
                     </div>
-
-                    @if (session('status'))
-                        <div class="alert alert-success">{{ session('status') }}</div>
-                    @endif
 
                     <div class="flex-auto px-0 pt-0 pb-2">
                         <div class="p-0 overflow-x-auto">
@@ -80,7 +84,7 @@
                                     @php
                                         $totalWeight = 0; // Inisialisasi variabel totalWeight
                                     @endphp
-                                    @forelse ($criterias as $criteria)
+                                    @forelse ($criterion as $criteria)
                                         <tr>
                                             <!-- Nomor -->
                                             <td
@@ -199,7 +203,7 @@
                                     </h6>
                                 </div>
                             </div>
-                            {{ $criterias->links('pagination::tailwind') }}
+                            {{ $criterion->links('pagination::tailwind') }}
                         </div>
                     </div>
                 </div>
