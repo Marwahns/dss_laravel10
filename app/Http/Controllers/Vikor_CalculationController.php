@@ -20,6 +20,7 @@ class Vikor_CalculationController extends Controller
         $tb_sample = new Sample();
         $tb_alternative = new Alternative();
         $tb_criteria = new Criteria();
+        $jumlahDataAlternative = $tb_alternative->count();
 
         $pageTitle = 'VIKOR | Calculation';
         $breadcrumb = 'Calculation'; // breadcrumb
@@ -32,8 +33,8 @@ class Vikor_CalculationController extends Controller
         $getAlternative = $tb_alternative->detailAlternative();
         $criterias =  $tb_criteria->detailCriteria();
         $alternatives = Alternative::all();
-
-        // $i=0;
+        $totalWeight = Criteria::sum('weight');
+        
         foreach ($getAlternative as $key => $value) {
             $detailSampleByAlternativeId = $tb_sample->detailSample($value['id']);
             // print_r($detailSampleByAlternativeId); die;
@@ -59,16 +60,16 @@ class Vikor_CalculationController extends Controller
         [$Qs, $Qb, $Qc] = $this->calculateQValues($utilityMeasuresS, $utilityMeasuresR, $getAlternative);
 
         // Panggil fungsi calculateRankings
-        [$rankings, $rankingsB, $rankingsC, $alternativeQ, $qValueBestAlternative, $alternativeWithMinQs] = $this->calculateRankings($getAlternative, $Qs, $Qb, $Qc);
+        [$rankings, $rankingsB, $rankingsC, $alternativeQ, $qValueBestAlternative, $alternativeWithMinQs, $alternativeWithMinQsB, $alternativeWithMinQsC] = $this->calculateRankings($getAlternative, $Qs, $Qb, $Qc);
 
         // Panggil fungsi checkAcceptableAdvantage
         [$acceptableAdvantage, $difference] = $this->checkAcceptableAdvantage($getSamples, $alternativeQ, $qValueBestAlternative);
 
         // Panggil fungsi checkAcceptableStability
-        [$differenceQiB, $differenceQiC, $data] = $this->checkAcceptableStability($rankingsB, $rankingsC, $qValueBestAlternative);
+        [$differenceQiB, $differenceQiC, $data] = $this->checkAcceptableStability($rankingsB, $rankingsC, $qValueBestAlternative, $alternativeWithMinQs, $alternativeWithMinQsB, $alternativeWithMinQsC);
 
         //render view with posts
-        return view('calculation.index', compact('getAlternative', 'samples', 'pageTitle', 'breadcrumb', 'criterias', 'alternatives', 'maxValues', 'minValues', 'matrixNormalized', 'weightedNormalizedValues', 'utilityMeasuresS', 'utilityMeasuresR', 'Qs', 'Qb', 'Qc', 'rankings', 'rankingsB', 'rankingsC', 'alternativeQ', 'qValueBestAlternative', 'alternativeWithMinQs', 'acceptableAdvantage', 'difference', 'differenceQiB', 'differenceQiC', 'data'));
+        return view('calculation.index', compact('getAlternative', 'samples', 'jumlahDataAlternative', 'pageTitle', 'breadcrumb', 'criterias', 'alternatives', 'totalWeight', 'maxValues', 'minValues', 'matrixNormalized', 'weightedNormalizedValues', 'utilityMeasuresS', 'utilityMeasuresR', 'Qs', 'Qb', 'Qc', 'rankings', 'rankingsB', 'rankingsC', 'alternativeQ', 'qValueBestAlternative', 'alternativeWithMinQs', 'alternativeWithMinQsB', 'alternativeWithMinQsC', 'acceptableAdvantage', 'difference', 'differenceQiB', 'differenceQiC', 'data'));
     }
 
     public function calculateMinMaxValues($getAlternative, $criterias)
@@ -245,10 +246,16 @@ class Vikor_CalculationController extends Controller
         $minQsIndex = array_search(min(array_column($rankings, 1)), array_column($rankings, 1));
         $alternativeWithMinQs = $rankings[$minQsIndex][0]['nama_alternative'];
 
+        $minQsIndexB = array_search(min(array_column($rankingsB, 1)), array_column($rankingsB, 1));
+        $alternativeWithMinQsB = $rankingsB[$minQsIndexB][0]['nama_alternative'];
+
+        $minQsIndexC = array_search(min(array_column($rankingsC, 1)), array_column($rankingsC, 1));
+        $alternativeWithMinQsC = $rankingsC[$minQsIndexC][0]['nama_alternative'];
+
         $alternativeIndex = 1; // Indeks alternatif kedua
         $alternativeQ = $Qs[$alternativeIndex]; // Mengambil nilai Q pada alternatif kedua
 
-        return [$rankings, $rankingsB, $rankingsC, $alternativeQ, $qValueBestAlternative, $alternativeWithMinQs];
+        return [$rankings, $rankingsB, $rankingsC, $alternativeQ, $qValueBestAlternative, $alternativeWithMinQs, $alternativeWithMinQsB, $alternativeWithMinQsC];
     }
 
     public function checkAcceptableAdvantage($sample, $alternativeQ, $qValueBestAlternative)
@@ -270,10 +277,11 @@ class Vikor_CalculationController extends Controller
         return [$acceptableAdvantage, $difference];
     }
 
-    public function checkAcceptableStability($rankingsB, $rankingsC, $qValueBestAlternative)
+    public function checkAcceptableStability($rankingsB, $rankingsC, $qValueBestAlternative, $alternativeWithMinQs, $alternativeWithMinQsB, $alternativeWithMinQsC)
     {
         $differenceQiB = [];
         $differenceQiC = [];
+        $acceptableStability = true;
 
         foreach ($rankingsB as $ranking) {
             $Qi = $ranking[1]; // Mengambil nilai Qi dari array $rankings
@@ -283,6 +291,10 @@ class Vikor_CalculationController extends Controller
         foreach ($rankingsC as $ranking) {
             $Qi = $ranking[1]; // Mengambil nilai Qi dari array $rankings
             $differenceQiC[] = $Qi - $qValueBestAlternative;
+        }
+
+        if ($alternativeWithMinQs != $alternativeWithMinQsB && $alternativeWithMinQs != $alternativeWithMinQsC){
+            $acceptableStability = false;
         }
 
         // // Tampilkan hasil
@@ -297,8 +309,10 @@ class Vikor_CalculationController extends Controller
             'qValueBestAlternative' => $qValueBestAlternative,
             'differenceQiB' => $differenceQiB,
             'differenceQiC' => $differenceQiC,
+            'acceptableStability' => $acceptableStability
         ];
 
         return [$differenceQiB, $differenceQiC, $data];
     }
+
 }
