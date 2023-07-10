@@ -21,6 +21,40 @@
 @section('content')
     <div class="w-full px-6 py-6 mx-auto">
 
+        {{-- Alert criteria --}}
+        <div id="alert-criteria"
+            class="p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800 hidden"
+            role="alert">
+            <div class="flex items-center">
+                <svg class="flex-shrink-0 w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                    fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                        d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+                </svg>
+                <span class="sr-only">Info</span>
+                <h3 class="text-lg font-medium text-white"> Jumlah criteria tidak sesuai</h3>
+            </div>
+            <div class="mt-2 mb-4 text-sm text-white">
+                Jumlah criteria minimal 2, jumlah criteria sekarang <span id="countCriteria"></span>
+            </div>
+            <div class="flex">
+                <a href="{{ route('criteria.index') }}"
+                    class="text-white bg-red-800 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-xs px-3 py-1.5 mr-2 text-center inline-flex items-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                    <svg class="-ml-0.5 mr-2 h-3 w-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor" viewBox="0 0 20 14">
+                        <path
+                            d="M10 0C4.612 0 0 5.336 0 7c0 1.742 3.546 7 10 7 6.454 0 10-5.258 10-7 0-1.664-4.612-7-10-7Zm0 10a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z" />
+                    </svg>
+                    View more
+                </a>
+                <button type="button"
+                    class="text-red-800 bg-transparent border border-red-800 hover:bg-red-900 hover:text-white focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-xs px-3 py-1.5 text-center dark:hover:bg-red-600 dark:border-red-600 dark:text-red-500 dark:hover:text-white dark:focus:ring-red-800"
+                    data-dismiss-target="#alert-criteria" aria-label="Close">
+                    Dismiss
+                </button>
+            </div>
+        </div>
+
         {{-- Alert total weight --}}
         <div id="alert-total-weight"
             class="p-4 mb-4 text-red-800 border border-red-300 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 dark:border-red-800 hidden"
@@ -247,7 +281,7 @@
                                     </h6>
                                 </div>
                             </div>
-                            {{ $samples->links('pagination::tailwind') }}
+                            {{-- {{ $samples->links('pagination::tailwind') }} --}}
                         </div>
                     </div>
                 </div>
@@ -298,907 +332,43 @@
                             </table>
                             <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
                                 <div class="flex items-center flex-none w-1/2 max-w-full px-3">
-                                    <h6 class="mb-0">Total Weight: <h6 id="TotalWeight" name="TotalWeight"
-                                            class="ml-1">
-                                            {{ number_format($totalWeight, 4) }}</h6>
-                                    </h6>
+                                    <div class="block">
+                                        <h6 class="mb-0">Total Criteria: <span id="countDataCriteria" name="countDataCriteria"
+                                                class="ml-1">
+                                                {{ $countDataCriteria }}</span>
+                                        </h6>
+                                        <h6 class="mb-0">Total Weight: <span id="TotalWeight" name="TotalWeight"
+                                                class="ml-1">
+                                                {{ number_format($totalWeight, 4) }}</span>
+                                        </h6>
+                                    </div>
                                 </div>
                             </div>
-                            {{ $samples->links('pagination::tailwind') }}
+                            {{-- {{ $samples->links('pagination::tailwind') }} --}}
                         </div>
                     </div>
                 </div>
 
                 {{-- Langkah Ketiga: Menghitung Nilai Positif (F+) dan Negatif (F-) Sebagai Solusi Ideal Dari Setiap Kriteria --}}
-                <div class="relative flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border hidden"
-                    id="step-3">
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="flex items-center flex-none max-w-full px-3">
-                                <h6 class="mb-0" id="SubTitle"><b>Langkah ketiga: </b>Menghitung Nilai Positif (F+) dan
-                                    Negatif (F-) Sebagai Solusi Ideal Dari Setiap Kriteria</h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                                <thead class="align-bottom">
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            #
-                                        </th>
-
-                                        <!-- Criteria -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Alternative
-                                        </th>
-
-                                        @foreach ($criterion as $criteria)
-                                            <th
-                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ $criteria->criteria }}</th>
-                                        @endforeach
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Criteria Weight -->
-                                    @foreach ($getAlternative as $alternative)
-                                        <tr>
-                                            <!-- Nomor -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
-                                            </td>
-
-                                            <!-- Alternative -->
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $alternative['nama_alternative'] }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            @foreach ($criterion as $criteria)
-                                                <td
-                                                    class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                    <div class="flex px-2 py-1 justify-center">
-                                                        <div class="flex flex-col justify-center">
-                                                            <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                                {{ $alternative['nilai_c' . $criteria->id] }}
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            @endforeach
-
-                                        </tr>
-                                    @endforeach
-                                    <!-- F+ and F- rows -->
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <td
-                                            class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                            <span class="text-xs font-semibold leading-tight text-slate-400"></span>
-                                        </td>
-
-                                        <td
-                                            class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <div class="flex px-2 py-1">
-                                                <div class="flex flex-col justify-center">
-                                                    <p class="mb-0 text-xs leading-tight text-slate-400">F+</p>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        @foreach ($dataCalculateMinMaxValues['maxValues'] as $criteriaId => $maxValue)
-                                            <td
-                                                class="px-6 py-3 text-center font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $maxValue }}</span>
-                                            </td>
-                                        @endforeach
-                                    </tr>
-
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <td
-                                            class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                            <span class="text-xs font-semibold leading-tight text-slate-400"></span>
-                                        </td>
-
-                                        <td
-                                            class="p-2 te align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                            <div class="flex px-2 py-1">
-                                                <div class="flex flex-col justify-center">
-                                                    <p class="mb-0 text-xs leading-tight text-slate-400">F-</p>
-                                                </div>
-                                            </div>
-                                        </td>
-
-                                        @foreach ($dataCalculateMinMaxValues['minValues'] as $criteriaId => $minValue)
-                                            <td
-                                                class="px-6 py-3 text-center font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $minValue }}</span>
-                                            </td>
-                                        @endforeach
-                                    </tr>
-                                </tbody>
-                            </table>
-                            {{ $samples->links('pagination::tailwind') }}
-                        </div>
-                    </div>
-                </div>
+                @include('calculation.step.stepThree')
 
                 {{-- Langkah Keempat: Menghitung matriks normalisasi (N) --}}
-                <div class="relative hidden flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border"
-                    id="step-4">
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="flex items-center flex-none max-w-full px-3">
-                                <h6 class="mb-0" id="SubTitle"><b>Langkah keempat:</b> Menghitung matriks normalisasi
-                                    (N)
-                                </h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                                <thead class="align-bottom">
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            #
-                                        </th>
-
-                                        <!-- Alternative -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Alternative</th>
-
-                                        @foreach ($criterion as $criteria)
-                                            <th
-                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ $criteria->criteria }}</th>
-                                        @endforeach
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- Iterasi alternatif --}}
-                                    @forelse ($getAlternative as $alternative)
-                                        <tr>
-                                            <!-- Nomor -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
-                                            </td>
-
-                                            <!-- Alternative -->
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $alternative['nama_alternative'] }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            @foreach ($matrixNormalized[$loop->index] as $value)
-                                                <td
-                                                    class="px-6 py-3 text-center font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                    <span
-                                                        class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($value, 2) }}</span>
-                                                </td>
-                                            @endforeach
-                                        </tr>
-                                    @empty
-                                        <div class="alert alert-danger flex justify-center">
-                                            Data Post belum Tersedia.
-                                        </div>
-                                    @endforelse
-
-                                </tbody>
-                            </table>
-                            {{ $samples->links('pagination::tailwind') }}
-                        </div>
-                    </div>
-                </div>
+                @include('calculation.step.stepFour')
 
                 {{-- Langkah Kelima: Menghitung bobot normalisasi (F*) --}}
-                <div class="relative hidden flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border"
-                    id="step-5">
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="flex items-center flex-none max-w-full px-3">
-                                <h6 class="mb-0" id="SubTitle"><b>Langkah kelima:</b> Menghitung bobot normalisasi (F*)
-                                </h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-
-                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                                <thead class="align-bottom">
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            #
-                                        </th>
-
-                                        <!-- Alternative -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Alternative</th>
-
-                                        @foreach ($criterion as $criteria)
-                                            <th
-                                                class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ $criteria->criteria }}</th>
-                                        @endforeach
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- Iterasi alternatif --}}
-                                    @forelse ($getAlternative as $index => $alternative)
-                                        <tr>
-                                            <!-- Nomor -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
-                                            </td>
-
-                                            <!-- Alternative -->
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $alternative['nama_alternative'] }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            @foreach ($weightedNormalizedValues[$index] as $value)
-                                                <td
-                                                    class="px-6 py-3 text-center font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                    <span
-                                                        class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($value, 2) }}</span>
-                                                </td>
-                                            @endforeach
-                                        </tr>
-                                    @empty
-                                        <div class="alert alert-danger flex justify-center">
-                                            Data Post belum Tersedia.
-                                        </div>
-                                    @endforelse
-
-                                </tbody>
-                            </table>
-                            {{ $samples->links('pagination::tailwind') }}
-                        </div>
-                    </div>
-                </div>
+                @include('calculation.step.stepFive')
 
                 {{-- Langkah Keenam: Menghitung utility measure (S) dan (R) dari setiap alternatif --}}
-                <div class="relative hidden flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border"
-                    id="step-6">
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="flex items-center flex-none max-w-full px-3">
-                                <h6 class="mb-0" id="SubTitle"><b>Langkah keenam:</b> Menghitung utility measure (S)
-                                    dan (R) dari setiap alternatif
-                                </h6>
-                            </div>
-                        </div>
-                    </div>
+                @include('calculation.step.stepSix')
 
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                                <thead class="align-bottom">
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            #
-                                        </th>
-
-                                        <!-- Alternative -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Alternative</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            S(i)</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            R(i)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- Iterasi alternatif --}}
-                                    @forelse ($getAlternative as $index => $alternative)
-                                        <tr>
-                                            <!-- Nomor -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
-                                            </td>
-
-                                            <!-- Alternative -->
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $alternative['nama_alternative'] }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td
-                                                class="px-6 py-3 font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($dataCalculateUtilityMeasures['utilityMeasuresS'][$index], 2) }}</span>
-                                            </td>
-
-                                            <td
-                                                class="px-6 py-3 font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($dataCalculateUtilityMeasures['utilityMeasuresR'][$index], 2) }}</span>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <div class="alert alert-danger flex justify-center">
-                                            Data Post belum Tersedia.
-                                        </div>
-                                    @endforelse
-
-                                </tbody>
-                            </table>
-                            {{ $samples->links('pagination::tailwind') }}
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Langkah Ketujuh: Menghitung indeks VIKOR (Q) --}}
-                <div class="relative hidden flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border"
-                    id="step-7">
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3">
-                            <div class="block items-center flex-none max-w-full px-3">
-                                <div>
-                                    <h6 class="mb-0"><b>Langkah ketujuh:</b> Menghitung indeks VIKOR (Q)</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="block items-center flex-none max-w-full px-3">
-                                <div>
-                                    <h6 class="mb-0">Sebelum menghitung nilai indeks VIKOR (Q) dari tiap alternatif,
-                                        perlu dihitung terlebih dahulu nilai-nilai S+, S-, R+, dan R-</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                                <thead class="align-bottom">
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            S+
-                                        </th>
-
-                                        <!-- Alternative -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            S-</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            R+</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            R-</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- Iterasi alternatif --}}
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <td
-                                            class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                            <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(max($dataCalculateUtilityMeasures['utilityMeasuresS']), 2) }}</span>
-                                        </td>
-
-                                        <td
-                                            class="px-6 py-3 font-bold text-center lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                            <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(min($dataCalculateUtilityMeasures['utilityMeasuresS']), 2) }}</span>
-                                        </td>
-
-                                        <td
-                                            class="px-6 py-3 font-bold text-center lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                            <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(max($dataCalculateUtilityMeasures['utilityMeasuresR']), 2) }}</span>
-                                        </td>
-
-                                        <td
-                                            class="px-6 py-3 font-bold text-center lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                            <span
-                                                class="text-xs font-semibold leading-tight text-slate-400">{{ number_format(min($dataCalculateUtilityMeasures['utilityMeasuresR']), 2) }}</span>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="block items-center flex-none max-w-full px-3">
-                                <div>
-                                    <h6 class="mb-0">Perhitungan nilai indeks VIKOR dari setiap alternatif</h6>
-                                    <p class="mb-0 mt-1 text-xs leading-normal text-black">V = 0.5</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                                <thead class="align-bottom">
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            #
-                                        </th>
-
-                                        <!-- Alternative -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Alternative</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Q(i)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- Iterasi alternatif --}}
-                                    @forelse ($getAlternative as $index => $alternative)
-                                        <tr>
-                                            <!-- Nomor -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
-                                            </td>
-
-                                            <!-- Alternative -->
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $alternative['nama_alternative'] }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td
-                                                class="px-6 py-3 font-bold lign-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ number_format($dataCalculateQValues['Qs'][$index], 4) }}</span>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <div class="alert alert-danger flex justify-center">
-                                            Data Post belum Tersedia.
-                                        </div>
-                                    @endforelse
-
-                                </tbody>
-                            </table>
-                            {{ $samples->links('pagination::tailwind') }}
-                        </div>
-                    </div>
-                </div>
+                {{-- Langkah Keenam: Menghitung utility measure (S) dan (R) dari setiap alternatif --}}
+                @include('calculation.step.stepSeven')
 
                 {{-- Langkah Kedelapan: Merangking alternatif dengan mengurutkan mulai dari nilai Qi terkecil --}}
-                <div class="relative hidden flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border"
-                    id="step-8">
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="flex items-center flex-none max-w-full px-3">
-                                <h6 class="mb-0" id="SubTitle"><b>Langkah kedelapan: </b> Merangking alternatif dengan
-                                    mengurutkan mulai dari nilai Qi terkecil
-                                </h6>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                                <thead class="align-bottom">
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            #
-                                        </th>
-
-                                        <!-- Alternative -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Alternative</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Q(i)</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Rank</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- Iterasi alternatif --}}
-                                    @forelse ($dataCalculateRankings['rankings'] as $rank => $ranking)
-                                        <tr>
-                                            <!-- Nomor -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
-                                            </td>
-
-                                            <!-- Alternative -->
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $ranking[0]['nama_alternative'] }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <!-- Q(i) -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ number_format($ranking[1], 4) }}
-                                            </td>
-
-                                            <!-- Rank -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ $rank + 1 }}
-                                            </td>
-
-                                        </tr>
-                                    @empty
-                                        <div class="alert alert-danger flex justify-center">
-                                            Data Post belum Tersedia.
-                                        </div>
-                                    @endforelse
-
-                                </tbody>
-                            </table>
-                            {{ $samples->links('pagination::tailwind') }}
-                        </div>
-                    </div>
-                </div>
+                @include('calculation.step.stepEight')
 
                 {{-- Langkah Kesembilan: Melakukan solusi kompromi dua solusi --}}
-                <div class="relative hidden flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border"
-                    id="step-9">
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="flex items-center flex-none max-w-full px-3">
-                                <div>
-                                    <h6 class="mb-0"><b>Langkah kesembilan: </b> Melakukan solusi kompromi
-                                        dua solusi
-                                    </h6>
-
-                                    <h6 class="mb-0 mt-1">Solusi kompromi dapat diusulkan dengan membuktikan kedua kondisi.
-                                        Dalam pembuktian solusi kompromi ini digunakan nilai v (nilai bobot strategy of the
-                                        maximum group utility) masing-masing adalah v=0.45 (with veto), v=0.5 (by
-                                        concensus), dan v=0.55 (voting by majority rule)</h6>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="block items-center flex-none max-w-full px-3">
-                                <div>
-                                    <h6 class="mb-0">Pembuktian kondisi Acceptable advantage</h6>
-                                    <br>
-                                    <p class="mb-0 text-xs leading-normal text-black">DQ = 1 / (m - 1)</p>
-                                    <br>
-                                    <p class="mb-0 text-xs leading-normal text-black">m = Jumlah kriteria</p>
-                                    <br>
-                                    <p class="mb-0 text-xs leading-normal text-black">DQ =
-                                        <span id="dq">{{ number_format(1 / (count($criterion) - 1), 4) }}</span>
-                                    </p>
-                                    <br>
-                                    <p class="mb-0 text-xs leading-normal text-black">QA2 - QA1 =
-                                        <span id="difference">{{ $dataCheckAcceptableAdvantage['difference'] }}</span>
-                                    </p>
-                                    <br>
-                                    <h6 class="mb-0">Nilai selisih yang dihasilkan
-                                        <span id="valueDifference"></span> nilai DQ,
-                                        sehingga <b>kondisi Acceptable advantage
-                                            <span id="conditionAdvantage"></span>
-                                        </b>
-                                    </h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="flex items-center flex-none max-w-full px-3">
-                                <div>
-                                    <h6 class="mb-0">Pembuktian kondisi Acceptable stability in decision making </h6>
-                                    <br>
-                                    <p class="mb-0 text-xs leading-normal text-black">V = 0.45</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                                <thead class="align-bottom">
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            #
-                                        </th>
-
-                                        <!-- Alternative -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Alternative</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Q(i)</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Qm - QBest</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Rank</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- Iterasi alternatif --}}
-                                    @forelse ($dataCalculateRankings['rankingsB'] as $rank => $ranking)
-                                        <tr>
-                                            <!-- Nomor -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
-                                            </td>
-
-                                            <!-- Alternative -->
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $ranking[0]['nama_alternative'] }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <!-- Q(i) -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ number_format($ranking[1], 4) }}
-                                            </td>
-
-                                            <!-- Qm - QBest -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ $dataCheckAcceptableStability['differenceQiB'][$rank] }}
-                                            </td>
-
-                                            <!-- Rank -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ $rank + 1 }}
-                                            </td>
-
-                                        </tr>
-                                    @empty
-                                        <div class="alert alert-danger flex justify-center">
-                                            Data Post belum Tersedia.
-                                        </div>
-                                    @endforelse
-
-                                </tbody>
-                            </table>
-                            {{ $samples->links('pagination::tailwind') }}
-                        </div>
-                    </div>
-
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="flex items-center flex-none max-w-full px-3">
-                                <div>
-                                    <p class="mb-0 text-xs leading-normal text-black">V = 0.55</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex-auto px-0 pt-0 pb-2">
-                        <div class="p-0 overflow-x-auto">
-                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
-                                <thead class="align-bottom">
-                                    <tr>
-                                        <!-- Nomor -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            #
-                                        </th>
-
-                                        <!-- Alternative -->
-                                        <th
-                                            class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Alternative</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Q(i)</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Qm - QBest</th>
-
-                                        <th
-                                            class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                            Rank</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {{-- Iterasi alternatif --}}
-                                    @forelse ($dataCalculateRankings['rankingsC'] as $rank => $ranking)
-                                        <tr>
-                                            <!-- Nomor -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
-                                                <span
-                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
-                                            </td>
-
-                                            <!-- Alternative -->
-                                            <td
-                                                class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
-                                                <div class="flex px-2 py-1">
-                                                    <div class="flex flex-col justify-center">
-                                                        <p class="mb-0 text-xs leading-tight text-slate-400">
-                                                            {{ $ranking[0]['nama_alternative'] }}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <!-- Q(i) -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ number_format($ranking[1], 4) }}
-                                            </td>
-
-                                            <!-- Qm - QBest -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{-- {{ $differenceQiC[$rank] }} --}}
-                                                {{ $dataCheckAcceptableStability['differenceQiB'][$rank] }}
-                                            </td>
-
-                                            <!-- Rank -->
-                                            <td
-                                                class="px-6 py-3 font-bold text-left align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
-                                                {{ $rank + 1 }}
-                                            </td>
-
-                                        </tr>
-                                    @empty
-                                        <div class="alert alert-danger flex justify-center">
-                                            Data Post belum Tersedia.
-                                        </div>
-                                    @endforelse
-
-                                </tbody>
-                            </table>
-                            {{ $samples->links('pagination::tailwind') }}
-                        </div>
-                    </div>
-
-                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
-                        <div class="flex flex-wrap -mx-3 mb-4">
-                            <div class="flex items-center flex-none max-w-full px-3">
-                                <div>
-                                    <h6 class="mb-0">Hasil peringkat terbaik dari perankingan dengan v=0.55 adalah
-                                        <span id="alternativeWithMinQs">{{ $dataCalculateRankings['alternativeWithMinQs'] }}</span>, yang sama
-                                        dengan peringkat terbaik dari perankingan Q. Hasil peringkat terbaik dari
-                                        perankingan dengan 0.45 adalah
-                                        <span id="alternativeWithMinQsB">{{ $dataCalculateRankings['alternativeWithMinQsB'] }}</span> dan 0.5
-                                        adalah
-                                        <span id="alternativeWithMinQsC">{{ $dataCalculateRankings['alternativeWithMinQsC'] }}</span> , yang sama
-                                        dengan peringkat terbaik dari perankingan Q. Berdasarkan hasil yang diperoleh dapat
-                                        dibuktikan bahwa <b>kondisi Acceptable stability in decision making
-                                            <span id="showCondition"></span>
-                                        </b>
-                                    </h6> <br>
-                                    <h6 class="mb-0">Berdasarkan hasil pembuktian kedua kondisi dapat diketahui bahwa
-                                        kedua kondisi tersebut <b>
-                                            <span id="showCondition2"></span>
-                                        </b></h6> <br>
-                                    <h6 class="mb-0 hidden" id="showNameAlternative"> <b>{{ $dataCalculateRankings['alternativeWithMinQs'] }}</b>
-                                        dapat diusulkan menjadi solusi
-                                        kompromi dan merupakan peringkat terbaik dari perankingan penerima beasiswa dengan
-                                        metode VIKOR</h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
+                @include('calculation.step.stepNine')
             </div>
         </div>
 
@@ -1226,11 +396,13 @@
         $(document).ready(function() {
             var countAlternative = parseInt($('#countAlternative').text())
             var totalWeight = $('#TotalWeight').text()
+            var countCriteria = parseInt($('#countDataCriteria').text())
             $('#current-total-alternative').text(countAlternative)
             $('#currentTotalWeight').text(totalWeight)
+            $('#countCriteria').text(countCriteria)
 
             // TotalWeight
-            if (parseFloat($('#TotalWeight').text()) != 1 || countAlternative < 2) {
+            if (parseFloat($('#TotalWeight').text()) != 1 || countCriteria < 2 || countAlternative < 2) {
                 $('#btnCalculate').prop('disabled', true);
             } else {
                 $('#btnCalculate').prop('disabled', false);
@@ -1240,10 +412,9 @@
                 $('#alert-total-weight').removeClass('hidden');
             } else if (countAlternative < 2) {
                 $('#alert-total-alternative').removeClass('hidden');
-            } else if (parseFloat($('#TotalWeight').text()) != 1 && countAlternative < 2) {
-                $('#alert-total-weight').removeClass('hidden');
-                $('#alert-total-alternative').removeClass('hidden');
-            }
+            } else if (countCriteria < 2) {
+                $('#alert-criteria').removeClass('hidden');
+            } 
 
             // btnCalculate
             $('#btnCalculate').click(function() {

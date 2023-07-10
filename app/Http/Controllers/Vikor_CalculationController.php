@@ -6,6 +6,7 @@ use App\Models\Alternative;
 use App\Models\Criteria;
 use App\Models\Sample;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class Vikor_CalculationController extends Controller
@@ -15,7 +16,7 @@ class Vikor_CalculationController extends Controller
      *
      * @return View
      */
-    public function index(Request $request): View
+    public function index(Request $request)
     {
         $pageTitle = 'VIKOR | Calculation';
         $breadcrumb = 'Calculation'; # breadcrumb
@@ -24,6 +25,7 @@ class Vikor_CalculationController extends Controller
         $tb_alternative = new Alternative();
         $tb_criteria = new Criteria();
         $countDataAlternative = $tb_alternative->count();
+        $countDataCriteria = $tb_criteria->count();
 
         # get data samples for pagination
         $samples = Sample::latest()->paginate(10);
@@ -34,7 +36,7 @@ class Vikor_CalculationController extends Controller
         $criterion =  $tb_criteria->detailCriteria();
         $alternatives = Alternative::all();
         $totalWeight = Criteria::sum('weight');
-        
+
         foreach ($getAlternative as $key => $value) {
             $detailSampleByAlternativeId = $tb_sample->detailSample($value['id']);
             # print_r($detailSampleByAlternativeId); die;
@@ -44,9 +46,15 @@ class Vikor_CalculationController extends Controller
         }
         # echo '<pre>'; print_r($getAlternative); die;
 
-        # Call function calculateMinMaxValues
-        [$dataCalculateMinMaxValues] = $this->calculateMinMaxValues($getAlternative, $criterion);
+        try {
+            # Call function calculateMinMaxValues
+            $dataCalculateMinMaxValues = $this->calculateMinMaxValues($getAlternative, $criterion);
+        } catch (\Exception $e) {
+            $errorMessage = $e->getMessage();
+            return Redirect::route('home.index')->with('error', $errorMessage);
+        }
 
+        [$dataCalculateMinMaxValues] = $this->calculateMinMaxValues($getAlternative, $criterion);
         # Call function calculateMinMaxValues
         [$matrixNormalized] = $this->calculateNormalizedValues($getAlternative, $criterion, $dataCalculateMinMaxValues['maxValues'], $dataCalculateMinMaxValues['minValues']);
 
@@ -69,7 +77,28 @@ class Vikor_CalculationController extends Controller
         [$dataCheckAcceptableStability] = $this->checkAcceptableStability($dataCalculateRankings['rankingsB'], $dataCalculateRankings['rankingsC'], $dataCalculateRankings['qValueBestAlternative'], $dataCalculateRankings['alternativeWithMinQs'], $dataCalculateRankings['alternativeWithMinQsB'], $dataCalculateRankings['alternativeWithMinQsC']);
 
         # Render view
-        return view('calculation.index', compact('getAlternative', 'samples', 'countDataAlternative', 'pageTitle', 'breadcrumb', 'criterion', 'alternatives', 'totalWeight', 'dataCalculateMinMaxValues', 'matrixNormalized', 'weightedNormalizedValues', 'dataCalculateUtilityMeasures', 'dataCalculateQValues', 'dataCalculateRankings', 'dataCheckAcceptableAdvantage', 'dataCheckAcceptableStability'));
+        return view('calculation.index', compact('getAlternative', 'samples', 'countDataAlternative', 'countDataCriteria', 'pageTitle', 'breadcrumb', 'criterion', 'alternatives', 'totalWeight', 'dataCalculateMinMaxValues', 'matrixNormalized', 'weightedNormalizedValues', 'dataCalculateUtilityMeasures', 'dataCalculateQValues', 'dataCalculateRankings', 'dataCheckAcceptableAdvantage', 'dataCheckAcceptableStability'));
+    }
+
+    public function debugging($getAlternative, $criterion)
+    {
+
+        foreach ($getAlternative as $alternative) {
+            foreach ($criterion as $criteria) {
+                $key = 'nilai_c' . $criteria->id;
+    
+                if (!isset($alternative[$key])) {
+                    $errorMessage = "The key '{$key}' does not exist in the \$alternative array.";
+                    $error = "Semua alternatif harus memiliki nilai weight dari masing-masing kriteria";
+                    // dd($alternative); # Dump the contents of $alternative array for debugging purposes
+                    // die(); # Terminate the script execution
+                    throw new \Exception($error);
+                }
+    
+                $criteriaValue = $alternative[$key];
+            }
+        }
+
     }
 
     public function calculateMinMaxValues($getAlternative, $criterion)
@@ -83,24 +112,31 @@ class Vikor_CalculationController extends Controller
             $minValues[$criteria->id] = null;
         }
 
-        # Calculate the maximum and minimum values per column
         foreach ($getAlternative as $alternative) {
             foreach ($criterion as $criteria) {
+
+                $this->debugging($getAlternative, $criterion);
+
                 $criteriaValue = $alternative['nilai_c' . $criteria->id];
-                $maxValue = is_array($criteriaValue) ? max($criteriaValue) : $criteriaValue;
-                $minValue = is_array($criteriaValue) ? min($criteriaValue) : $criteriaValue;
 
-                # Update the maximum value per column if necessary
-                if ($maxValue !== null && ($maxValues[$criteria->id] === null || $maxValue > $maxValues[$criteria->id])) {
-                    $maxValues[$criteria->id] = $maxValue;
-                }
+                // Memeriksa jika nilai adalah null sebelum memprosesnya
+                if ($criteriaValue !== null) {
+                    $maxValue = is_array($criteriaValue) ? max($criteriaValue) : $criteriaValue;
+                    $minValue = is_array($criteriaValue) ? min($criteriaValue) : $criteriaValue;
 
-                # Update the minimum value per column if necessary
-                if ($minValue !== null && ($minValues[$criteria->id] === null || $minValue < $minValues[$criteria->id])) {
-                    $minValues[$criteria->id] = $minValue;
+                    # Update the maximum value per column if necessary
+                    if ($maxValue !== null && ($maxValues[$criteria->id] === null || $maxValue > $maxValues[$criteria->id])) {
+                        $maxValues[$criteria->id] = $maxValue;
+                    }
+
+                    # Update the minimum value per column if necessary
+                    if ($minValue !== null && ($minValues[$criteria->id] === null || $minValue < $minValues[$criteria->id])) {
+                        $minValues[$criteria->id] = $minValue;
+                    }
                 }
             }
         }
+
 
         # Prepare data to be sent to the view
         $dataCalculateMinMaxValues = [
@@ -214,7 +250,7 @@ class Vikor_CalculationController extends Controller
         $c = 0.55;  # voting by majority rule
 
         # Array to store the VIKOR index value of each alternative
-        $Qs = []; 
+        $Qs = [];
         $Qb = [];
         $Qc = [];
 
@@ -331,7 +367,7 @@ class Vikor_CalculationController extends Controller
             $differenceQiC[] = $Qi - $qValueBestAlternative;
         }
 
-        if ($alternativeWithMinQs != $alternativeWithMinQsB && $alternativeWithMinQs != $alternativeWithMinQsC){
+        if ($alternativeWithMinQs != $alternativeWithMinQsB && $alternativeWithMinQs != $alternativeWithMinQsC) {
             $acceptableStability = false;
         }
 
@@ -352,5 +388,4 @@ class Vikor_CalculationController extends Controller
 
         return [$dataCheckAcceptableStability];
     }
-
 }
