@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 //route resource
+# Sign In
+Route::resource('/login', \App\Http\Controllers\UserController::class);
 #
 Route::resource('/', \App\Http\Controllers\HomeController::class);
 # Dashboard

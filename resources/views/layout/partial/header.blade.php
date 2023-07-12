@@ -7,7 +7,7 @@
         <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap text-slate-700" href="javascript:;" target="_blank">
             <img src="./assets/img/logo-ct.png"
                 class="inline h-full max-w-full transition-all duration-200 ease-nav-brand max-h-8" alt="main_logo" />
-            <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Scholarship Recommendations</span>
+            <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Scholarship Recommendation</span>
         </a>
     </div>
 
@@ -105,7 +105,7 @@
                         class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                         <i class="fas fa-medal leading-none relative"></i>
                     </div>
-                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Scholarship Recommendations</span>
+                    <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Scholarship Recommendation</span>
                 </a>
             </li>
 
