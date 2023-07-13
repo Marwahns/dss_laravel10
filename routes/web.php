@@ -20,10 +20,10 @@ use Illuminate\Support\Facades\Route;
 //route resource
 # Sign In
 Route::resource('/login', \App\Http\Controllers\UserController::class);
+Route::post('/login/check', [\App\Http\Controllers\UserController::class, 'check'])->name('login.check');
 #
 Route::resource('/', \App\Http\Controllers\HomeController::class);
 # Dashboard
-Route::resource('/', \App\Http\Controllers\HomeController::class);
 Route::resource('/home', \App\Http\Controllers\HomeController::class);
 # Criteria
 Route::resource('/criteria', \App\Http\Controllers\CriteriaController::class);
