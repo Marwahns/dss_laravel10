@@ -18,6 +18,7 @@
 @endsection
 
 @section('content')
+<<<<<<< HEAD
 <!-- table -->
 <div class="w-full px-6 py-6 mx-auto">
     <div class="flex flex-wrap -mx-3">
@@ -31,10 +32,38 @@
                         <div class="flex-none w-1/2 max-w-full px-3 text-right">
                             <button data-modal-target="create-modal" data-modal-toggle="create-modal" class="inline-block text-white px-6 py-3 font-bold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 addbtn" id="BtnAdd"><i class="fas fa-plus"> </i>&nbsp;&nbsp;Add New Data
                             </button>
+=======
+    <!-- table -->
+    <div class="w-full px-6 py-6 mx-auto">
+        <div class="flex flex-wrap -mx-3">
+            <div class="w-full max-w-full px-3">
+                @if (session('success'))
+                    <div class="alert alert-success"></div>
+                    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+                        role="alert">
+                        <span class="font-medium">Success!</span> {{ session('success') }}
+                    </div>
+                @endif
+
+                <div
+                    class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+                    <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                        <div class="flex flex-wrap -mx-3 mb-4">
+                            <div class="flex items-center flex-none w-1/2 max-w-full px-3">
+                                <h6 class="mb-0" id="SubTitle">Criteria Table</h6>
+                            </div>
+                            <div class="flex-none w-1/2 max-w-full px-3 text-right">
+                                <button data-modal-target="create-modal" data-modal-toggle="create-modal"
+                                    class="inline-block text-white px-6 py-3 font-bold bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 addbtn"
+                                    id="BtnAdd"><i class="fas fa-plus"> </i>&nbsp;&nbsp;Add New Data
+                                </button>
+                            </div>
+>>>>>>> 788bde2c031a655843ccab73e76bfb005a281540
                         </div>
                     </div>
                 </div>
 
+<<<<<<< HEAD
                 @if (session('status'))
                 <div class="alert alert-success">{{ session('status') }}</div>
                 @endif
@@ -48,6 +77,18 @@
                                     <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                         #
                                     </th>
+=======
+                    <div class="flex-auto px-0 pt-0 pb-2">
+                        <div class="p-0 overflow-x-auto">
+                            <table class="items-center w-full mb-0 align-top border-gray-200 text-slate-500">
+                                <thead class="align-bottom">
+                                    <tr>
+                                        <!-- Nomor -->
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            #
+                                        </th>
+>>>>>>> 788bde2c031a655843ccab73e76bfb005a281540
 
                                     <!-- Criteria -->
                                     <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
@@ -61,6 +102,7 @@
                                     <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                         Weight</th>
 
+<<<<<<< HEAD
                                     <!-- Action -->
                                     <th class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
                                         Action
@@ -77,6 +119,27 @@
                                     <td class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
                                         <span class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
                                     </td>
+=======
+                                        <!-- Action -->
+                                        <th
+                                            class="px-6 py-3 font-bold text-center uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $totalWeight = 0; // Inisialisasi variabel totalWeight
+                                    @endphp
+                                    @forelse ($criterion as $criteria)
+                                        <tr>
+                                            <!-- Nomor -->
+                                            <td
+                                                class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
+                                                <span
+                                                    class="text-xs font-semibold leading-tight text-slate-400">{{ $loop->iteration }}</span>
+                                            </td>
+>>>>>>> 788bde2c031a655843ccab73e76bfb005a281540
 
                                     <!-- Criteria -->
                                     <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
@@ -139,6 +202,7 @@
                                             <i class="fa fa-solid fa-edit"></i>
                                         </button>
 
+<<<<<<< HEAD
                                         <button type="button" class="hover:bg-gray-100 dark:hover:bg-slate-200 dark:hover:text-black" data-modal-target="#delete-modal{{ $criteria->id }}" data-modal-toggle="delete-modal{{ $criteria->id }}">
                                             <i class="fa fa-solid fa-trash"></i>
                                         </button>
@@ -158,6 +222,32 @@
                                     {{ number_format($totalWeight, 4) }}
                                 </h6>
                             </h6>
+=======
+                                                    <button type="button"
+                                                        class="hover:bg-gray-100 dark:hover:bg-slate-200 dark:hover:text-black"
+                                                        data-modal-target="#delete-modal{{ $criteria->id }}"
+                                                        data-modal-toggle="delete-modal{{ $criteria->id }}">
+                                                        <i class="fa fa-solid fa-trash"></i>
+                                                    </button>
+                                                </div> --}}
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <div class="alert alert-danger">
+                                            Data Post belum Tersedia.
+                                        </div>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                            <div class="p-6 pb-0 mb-0 border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                                <div class="flex items-center flex-none w-1/2 max-w-full px-3">
+                                    <h6 class="mb-0">Total Weight: <h6 id="TotalWeight" name="TotalWeight" class="ml-1">
+                                            {{ number_format($totalWeight, 4) }}</h6>
+                                    </h6>
+                                </div>
+                            </div>
+                            {{ $criterion->links('pagination::tailwind') }}
+>>>>>>> 788bde2c031a655843ccab73e76bfb005a281540
                         </div>
                     </div>
                     {{ $criterias->links('pagination::tailwind') }}

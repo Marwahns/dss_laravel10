@@ -1,4 +1,4 @@
-<script src="{{ asset('js/app.js') }}"></script>
+<script type="module" src="./assets/js/app.js"></script>
 
 <!-- plugin for charts  -->
 <script src="./assets/js/plugins/chartjs.min.js" async></script>
@@ -11,3 +11,27 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/alpinejs@2"></script>
+
+<!-- sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if($message = Session::get('success'))
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+    Toast.fire({
+        icon: 'success',
+        title: '{{ $message }}'
+    })
+</script>
+@endif

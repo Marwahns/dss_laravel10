@@ -19,7 +19,7 @@ class AlternativeSeeder extends Seeder
                 'kode_alternative'      => 'A001'
             ],
             [
-                'nama_alternative'  => 'Marwah Nur Shafira Marfadilla',
+                'nama_alternative'  => 'Marwah Nur Shafira ',
                 'kode_alternative'      => 'A002'
             ],
             [
