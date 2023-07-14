@@ -32,7 +32,7 @@ class CriteriaSeeder extends Seeder
             [
                 'criteria'  => 'Jumlah tagihan listrik',
                 'type'      => 'cost',
-                'weight'    => '0.2'
+                'weight'    => '0.21'
             ],
         ];
 

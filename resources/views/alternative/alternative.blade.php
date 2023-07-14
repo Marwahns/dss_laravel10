@@ -68,10 +68,6 @@
                                 $i = 1;
                                 @endphp
                                 @forelse ($alternatives as $alternative)
-<<<<<<< HEAD
-
-=======
->>>>>>> 788bde2c031a655843ccab73e76bfb005a281540
                                 <tr>
                                     <!-- Nomor -->
                                     <td class="px-6 py-3 font-bold text-center align-middle bg-transparent border-b tracking-none whitespace-nowrap text-slate-400">
