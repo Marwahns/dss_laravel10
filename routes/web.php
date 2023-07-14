@@ -29,3 +29,4 @@ Route::resource('/criteria', \App\Http\Controllers\CriteriaController::class);
 Route::resource('/alternative', \App\Http\Controllers\AlternativeController::class);
 # Calculation
 Route::resource('/calculation', \App\Http\Controllers\Vikor_CalculationController::class);
+# Schoolarship Recommendation
