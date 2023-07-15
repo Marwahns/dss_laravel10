@@ -28,9 +28,15 @@ class UserController extends Controller
         ];
 
         if (Auth::attempt($data)) {
-        } else {
             return redirect()->route('home.index')->with('success', 'Signed in successfully');
+        } else {
             return redirect()->route('login.index')->with('failed', 'Incorrect Email or Password');
         }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login.index')->with('logout', 'Signed out successfully');
     }
 }

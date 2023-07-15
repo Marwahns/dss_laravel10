@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 # Sign In
 Route::resource('/login', \App\Http\Controllers\UserController::class);
 Route::post('/login/check', [\App\Http\Controllers\UserController::class, 'check'])->name('login.check');
+Route::get('/logout', [\App\Http\Controllers\UserController::class, 'logout'])->name('logout');
 #
 Route::resource('/', \App\Http\Controllers\HomeController::class);
 # Dashboard
