@@ -17,15 +17,39 @@ class CriteriaController extends Controller
      */
     public function index(): View
     {
-        $pageTitle = 'VIKOR | Criteria'; 
+        $pageTitle = 'VIKOR | Criteria';
         $breadcrumb = 'Criteria'; # breadcrumb
 
         # get data criteria
-        $criterion = Criteria::latest()->paginate(10);
+        $criterion = Criteria::All();
+        $total_Weight = Criteria::sum('weight');
 
         # render view 
-        return view('criteria.index', compact('criterion', 'pageTitle', 'breadcrumb'));
+        return view('criteria.index', compact('criterion', 'pageTitle', 'breadcrumb', 'total_Weight'));
     }
+
+    public function search(Request $request)
+    {
+
+        $pageTitle = 'VIKOR | Criteria';
+        $breadcrumb = 'Criteria'; # breadcrumb
+
+        $search = $request->search;
+
+        $criterion = Criteria::where(function ($query) use ($search) {
+
+            $query->where('criteria', 'like', "%$search%")
+                ->orWhere('type', 'like', "%$search%")
+                ->orWhere('weight', 'like', "%$search%");
+        })
+            ->get();
+            // ->paginate(2)->withQueryString();
+
+        $total_Weight = Criteria::sum('weight');
+
+        return view('criteria.index', compact('criterion', 'search', 'pageTitle', 'breadcrumb', 'total_Weight'));
+    }
+
 
     /**
      * store
@@ -100,5 +124,4 @@ class CriteriaController extends Controller
         # redirect to index
         return redirect()->route('criteria.index')->with(['success' => 'Data Deleted Successfully!']);
     }
-
 }
