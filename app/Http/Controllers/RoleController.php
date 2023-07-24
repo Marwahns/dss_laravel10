@@ -33,8 +33,10 @@ class RoleController extends Controller
      */
     public function index(Request $request): View
     {
-        $roles = Role::orderBy('id','DESC')->paginate(5);
-        return view('roles.index',compact('roles'))
+        $data['pageTitle'] = 'VIKOR | Profile'; // Judul halaman
+        $data['breadcrumb'] = 'Profile'; // breadcrumb
+        $data['roles'] = Role::orderBy('id','DESC')->paginate(5);
+        return view('roles.index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
     
