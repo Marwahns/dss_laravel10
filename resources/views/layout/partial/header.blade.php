@@ -12,6 +12,7 @@
 
     <div class="items-center block w-auto max-h-screen grow basis-full">
         <ul class="flex flex-col pl-0 mb-0">
+            @if(auth()->user()->can('dashboard'))
             <li class="mt-6 w-full">
                 <a class="py-2.7 shadow-soft-xl text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap rounded-lg bg-white px-4 font-semibold text-slate-700 transition-colors" href="{{ route('home') }}">
                     <div class="bg-gradient-to-tl from-purple-700 to-pink-500 shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
@@ -33,11 +34,15 @@
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Dashboard</span>
                 </a>
             </li>
+            @endif
 
+            @canany(['criteria', 'alternative', 'sample'])
             <li class="w-full mt-4">
                 <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">Master</h6>
             </li>
+            @endcanany
 
+            @if(auth()->user()->can('criteria'))
             <li class="mt-0.5 w-full">
                 <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ route('criteria.index') }}">
                     <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
@@ -46,7 +51,9 @@
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Criterion</span>
                 </a>
             </li>
+            @endif
 
+            @if(auth()->user()->can('alternative'))
             <li class="mt-0.5 w-full">
                 <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ route('alternative.index') }}">
                     <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
@@ -55,7 +62,9 @@
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Alternatives</span>
                 </a>
             </li>
+            @endif
 
+            @if(auth()->user()->can('sample'))
             <li class="mt-0.5 w-full">
                 <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="#">
                     <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center fill-current stroke-0 text-center xl:p-2.5">
@@ -64,11 +73,15 @@
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Samples</span>
                 </a>
             </li>
+            @endif
 
+            @canany(['vikor-calculation'])
             <li class="w-full mt-4">
                 <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">Transaction</h6>
             </li>
+            @endcanany
 
+            @if(auth()->user()->can('vikor-calculation'))
             <li class="mt-0.5 w-full">
                 <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ route('calculation.index') }}">
                     <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
@@ -77,11 +90,15 @@
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">VIKOR Calculation</span>
                 </a>
             </li>
+            @endif
 
+            @canany(['scholarship-recommendation'])
             <li class="w-full mt-4">
                 <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">Decision Suport System</h6>
             </li>
+            @endcanany
 
+            @if(auth()->user()->can('scholarship-recommendation'))
             <li class="mt-0.5 w-full">
                 <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="">
                     <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
@@ -90,11 +107,15 @@
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Scholarship Recommendation</span>
                 </a>
             </li>
+            @endif
 
+            @canany(['profile', 'user', 'role-list', 'role-create', 'role-edit', 'role-delete'])
             <li class="w-full mt-4">
                 <h6 class="pl-6 ml-2 text-xs font-bold leading-tight uppercase opacity-60">Account pages</h6>
             </li>
+            @endcanany
 
+            @if(auth()->user()->can('profile'))
             <li class="mt-0.5 w-full">
                 <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ route('profile.index') }}">
                     <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
@@ -103,7 +124,9 @@
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Profile</span>
                 </a>
             </li>
+            @endif
 
+            @if(auth()->user()->can('user'))
             <li class="mt-0.5 w-full">
                 <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ route('users.index') }}">
                     <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
@@ -112,7 +135,9 @@
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Account Users</span>
                 </a>
             </li>
+            @endif
 
+            @canany(['role-list', 'role-create', 'role-edit', 'role-delete'])
             <li class="mt-0.5 w-full">
                 <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ route('roles.index') }}">
                     <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
@@ -121,6 +146,7 @@
                     <span class="ml-1 duration-300 opacity-100 pointer-events-none ease-soft">Roles</span>
                 </a>
             </li>
+            @endcanany
 
             <li class="mt-0.5 w-full">
                 <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
