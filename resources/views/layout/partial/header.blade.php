@@ -123,7 +123,7 @@
             </li>
 
             <li class="mt-0.5 w-full">
-                <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="#">
+                <a class="py-2.7 text-sm ease-nav-brand my-0 mx-4 flex items-center whitespace-nowrap px-4 transition-colors" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                     <div class="shadow-soft-2xl mr-2 flex h-8 w-8 items-center justify-center rounded-lg bg-white bg-center stroke-0 text-center xl:p-2.5">
                         <i class="fa fa-sign-out-alt leading-none relative"></i>
                     </div>
@@ -161,9 +161,13 @@
                     <!-- <li class="flex items-center">
               <a class="inline-block px-8 py-2 mb-0 mr-4 text-xs font-bold text-center uppercase align-middle transition-all bg-transparent border border-solid rounded-lg shadow-none cursor-pointer leading-pro border-fuchsia-500 ease-soft-in hover:scale-102 active:shadow-soft-xs text-fuchsia-500 hover:border-fuchsia-500 active:bg-fuchsia-500 active:hover:text-fuchsia-500 hover:text-fuchsia-500 tracking-tight-soft hover:bg-transparent hover:opacity-75 hover:shadow-none active:text-white active:hover:bg-transparent" target="_blank" href="https://www.creative-tim.com/builder/soft-ui?ref=navbar-dashboard&amp;_ga=2.76518741.1192788655.1647724933-1242940210.1644448053">Online Builder</a>
             </li> -->
-                    <li class="flex items-center">
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="block px-0 py-2 text-sm font-semibold transition-all ease-nav-brand text-slate-500">
-                            <i class="fa fa-user sm:mr-1"></i>
+                    <li class="flex items-center px-4 text-blue-500">
+                        <i class="fa fa-user sm:mr-1"></i>
+                        <div class="text-sm font-semibold">{{ Auth::user()->name }}</div>
+                    </li>
+                    <li class="flex items-center text-red-500">
+                        <i class="fas fa-sign-out-alt sm:mr-1"></i>
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="block px-0 py-2 text-sm font-semibold transition-all ease-nav-brand">
                             <span class="hidden sm:inline">{{ __('Logout') }}</span>
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -179,13 +183,6 @@
                             </div>
                         </a>
                     </li>
-                    <li class="flex items-center px-4">
-                        <a href="javascript:;" class="p-0 text-sm transition-all ease-nav-brand text-slate-500">
-                            <i fixed-plugin-button-nav class="cursor-pointer fa fa-cog"></i>
-                            <!-- fixed-plugin-button-nav  -->
-                        </a>
-                    </li>
-
                 </ul>
             </div>
         </div>
