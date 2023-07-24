@@ -45,4 +45,11 @@
         }
         document.getElementById('submit').disabled = false;
     }
+
+    document.getElementById('change_password').addEventListener('click', function() {
+        const inputs = document.getElementsByClassName('password_fields');
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].style.display = inputs[i].style.display === 'none' ? 'block' : 'none';
+        }
+    });
 </script>

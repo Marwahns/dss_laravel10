@@ -56,20 +56,32 @@
                     @method('PATCH')
                     @csrf
                     <div class="flex items-center">
-                        <label for="exampleName" class="w-24">Name</label>
+                        <label for="exampleName" class="w-40">Name</label>
                         <input type="text" class="flex-1 px-4 py-2 border rounded-lg" name="name" id="exampleName" placeholder="Name" readonly value="{{ Auth::user()->name }}" required>
                     </div>
                     <div class="flex items-center">
-                        <label for="exampleEmail" class="w-24">Email</label>
+                        <label for="exampleEmail" class="w-40">Email</label>
                         <input type="email" class="flex-1 px-4 py-2 border rounded-lg" name="email" id="exampleEmail" placeholder="Email" readonly value="{{ Auth::user()->email }}" required>
                     </div>
                     <div class="flex items-center">
-                        <label for="exampleRole" class="w-24">Role</label>
+                        <label for="exampleRole" class="w-40">Role</label>
                         <select name="roles[]" id="exampleRole" class="flex-1 px-4 py-2 border rounded-lg" disabled>
                             @foreach ($data['roles'] as $role)
                             <option value="{{ $role }}" {{ in_array($role, $data['userRole']) ? 'selected' : '' }}>{{ $role }}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class="flex items-center">
+                        <label class="w-40" for="change_password">Change Password</label>
+                        <input type="checkbox" name="change_password" id="change_password" disabled class="mt-0.54 rounded-10 duration-250 ease-soft-in-out after:rounded-circle after:shadow-soft-2xl after:duration-250 checked:after:translate-x-5.25 h-5 relative float-left w-10 cursor-pointer appearance-none border border-solid border-gray-200 bg-slate-800/10 bg-none bg-contain bg-left bg-no-repeat align-top transition-all after:absolute after:top-px after:h-4 after:w-4 after:translate-x-px after:bg-white after:content-[''] checked:border-slate-800/95 checked:bg-slate-800/95 checked:bg-none checked:bg-right">
+                    </div>
+                    <div class="flex items-center password_fields" style="display: none;">
+                        <label for="password" class="w-40">New Password</label>
+                        <input type="password" class="flex-1 px-4 py-2 border rounded-lg" name="password" id="password" placeholder="New Password">
+                    </div>
+                    <div class="flex items-center password_fields" style="display: none;">
+                        <label for="confirm-password" class="w-40">Confirm Password</label>
+                        <input type="password" class="flex-1 px-4 py-2 border rounded-lg" name="confirm-password" id="confirm-password" placeholder="Confirm Password">
                     </div>
                     <br>
                     <button type="submit" id="submit" class="w-full px-4 py-2 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300" disabled>

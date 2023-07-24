@@ -25,8 +25,8 @@ class ProfileController extends Controller
         $data['pageTitle'] = 'VIKOR | Profile'; // Judul halaman
         $data['breadcrumb'] = 'Profile'; // breadcrumb
         $data['user'] = User::find(Auth::user()->id);
-        $data['roles'] = Role::pluck('name','name')->all();
-        $data['userRole'] = $data['user']->roles->pluck('name','name')->all();
+        $data['roles'] = Role::pluck('name', 'name')->all();
+        $data['userRole'] = $data['user']->roles->pluck('name', 'name')->all();
         return view('profile.index', compact('data'));
     }
 
@@ -42,11 +42,26 @@ class ProfileController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $id,
-            // 'password' => 'same:confirm-password',
             'roles' => 'required'
         ]);
 
         $input = $request->all();
+
+        if (!empty($input['change_password']) && $input['change_password'] == 'on') {
+            $this->validate($request, [
+                'password' => [
+                    'required',
+                    'same:confirm-password',
+                    'min:8',           // Minimum length of 8 characters
+                    // 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'
+                ]
+            ], [
+                'password.required' => 'The password field is required.',
+                'password.min' => 'The password must be at least :min characters.',
+                // 'password.regex' => 'The password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character from @$!%*?&.',
+            ]);
+        }
+
         if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
