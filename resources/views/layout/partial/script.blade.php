@@ -35,3 +35,14 @@
     })
 </script>
 @endif
+
+<script>
+    function enableInput() {
+        var inputs = document.querySelectorAll('input, select');
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].readOnly = false;
+            inputs[i].disabled = false;
+        }
+        document.getElementById('submit').disabled = false;
+    }
+</script>

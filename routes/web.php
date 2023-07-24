@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\HomeController;
 use \App\Http\Controllers\RoleController;
 use \App\Http\Controllers\UserController;
+use \App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\CriteriaController;
 use \App\Http\Controllers\AlternativeController;
 use \App\Http\Controllers\Vikor_CalculationController;
@@ -42,6 +43,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('roles', RoleController::class);
     # Users
     Route::resource('users', UserController::class);
+    # Profile
+    Route::resource('profile', ProfileController::class);
     # Criteria
     Route::resource('/criteria', CriteriaController::class);
     # Alternative
