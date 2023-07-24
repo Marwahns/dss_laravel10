@@ -51,7 +51,7 @@ class Vikor_CalculationController extends Controller
             $dataCalculateMinMaxValues = $this->calculateMinMaxValues($getAlternative, $criterion);
         } catch (\Exception $e) {
             $errorMessage = $e->getMessage();
-            return Redirect::route('home.index')->with('error', $errorMessage);
+            return Redirect::route('home')->with('error', $errorMessage);
         }
 
         [$dataCalculateMinMaxValues] = $this->calculateMinMaxValues($getAlternative, $criterion);

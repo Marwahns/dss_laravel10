@@ -27,6 +27,10 @@ Route::resource('/login', \App\Http\Controllers\UserController::class);
 Route::post('/login/check', [\App\Http\Controllers\UserController::class, 'check'])->name('login.check');
 Route::get('/logout', [\App\Http\Controllers\UserController::class, 'logout'])->name('logout');
 
+# Auth
+Auth::routes();
+#
+Route::resource('/', \App\Http\Controllers\Lo::class);
 # Dashboard
 Route::resource('/', HomeController::class);
 Route::resource('/home', HomeController::class);
