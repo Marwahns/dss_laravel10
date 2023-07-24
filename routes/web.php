@@ -27,21 +27,22 @@ Route::resource('/login', \App\Http\Controllers\UserController::class);
 Route::post('/login/check', [\App\Http\Controllers\UserController::class, 'check'])->name('login.check');
 Route::get('/logout', [\App\Http\Controllers\UserController::class, 'logout'])->name('logout');
 
-# Auth
-Auth::routes();
-#
-Route::resource('/', \App\Http\Controllers\Lo::class);
 # Dashboard
 Route::resource('/', HomeController::class);
 Route::resource('/home', HomeController::class);
-# Criteria
-Route::resource('/criteria', CriteriaController::class);
-# Alternative
-Route::resource('/alternative', AlternativeController::class);
-# Calculation
-Route::resource('/calculation', Vikor_CalculationController::class);
-# Schoolarship Recommendation
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
-// Route::get('/criteria',[CriteriaController::class,'index']);
-Route::get('/search',[CriteriaController::class,'search']);
+# Auth
+Auth::routes();
+# Validasi Authentication
+Route::group(['middleware' => ['auth']], function () {
+    # Criteria
+    Route::resource('/criteria', CriteriaController::class);
+    # Alternative
+    Route::resource('/alternative', AlternativeController::class);
+    # Calculation
+    Route::resource('/calculation', Vikor_CalculationController::class);
+    # Schoolarship Recommendation
+    // Route::get('/criteria',[CriteriaController::class,'index']);
+    Route::get('/search', [CriteriaController::class, 'search']);
+});
