@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\HomeController;
+use \App\Http\Controllers\RoleController;
+use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\CriteriaController;
 use \App\Http\Controllers\AlternativeController;
 use \App\Http\Controllers\Vikor_CalculationController;
@@ -36,6 +38,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Auth::routes();
 # Validasi Authentication
 Route::group(['middleware' => ['auth']], function () {
+    # Roles
+    Route::resource('roles', RoleController::class);
+    # Users
+    Route::resource('users', UserController::class);
     # Criteria
     Route::resource('/criteria', CriteriaController::class);
     # Alternative
