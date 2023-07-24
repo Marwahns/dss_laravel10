@@ -10,6 +10,16 @@ use Illuminate\View\View;
 class AlternativeController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:alternative');
+    }
+
+    /**
      * index
      *
      * @return View

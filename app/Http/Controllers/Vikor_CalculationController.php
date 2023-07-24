@@ -12,6 +12,16 @@ use Illuminate\View\View;
 class Vikor_CalculationController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:vikor-calculation');
+    }
+
+    /**
      * index
      *
      * @return View
@@ -86,7 +96,7 @@ class Vikor_CalculationController extends Controller
         foreach ($getAlternative as $alternative) {
             foreach ($criterion as $criteria) {
                 $key = 'nilai_c' . $criteria->id;
-    
+
                 if (!isset($alternative[$key])) {
                     $errorMessage = "The key '{$key}' does not exist in the \$alternative array.";
                     $error = "Semua alternatif harus memiliki nilai weight dari masing-masing kriteria";
@@ -94,11 +104,10 @@ class Vikor_CalculationController extends Controller
                     // die(); # Terminate the script execution
                     throw new \Exception($error);
                 }
-    
+
                 $criteriaValue = $alternative[$key];
             }
         }
-
     }
 
     public function calculateMinMaxValues($getAlternative, $criterion)

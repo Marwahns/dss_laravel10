@@ -20,6 +20,16 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    function __construct()
+    {
+        $this->middleware('permission:profile');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request): View
     {
         $data['pageTitle'] = 'VIKOR | Profile'; // Judul halaman

@@ -9,6 +9,15 @@ use Illuminate\View\View;
 
 class CriteriaController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:criteria');
+    }
 
     /**
      * index
@@ -43,7 +52,7 @@ class CriteriaController extends Controller
                 ->orWhere('weight', 'like', "%$search%");
         })
             ->get();
-            // ->paginate(2)->withQueryString();
+        // ->paginate(2)->withQueryString();
 
         $total_Weight = Criteria::sum('weight');
 
