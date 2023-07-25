@@ -46,12 +46,13 @@ Route::group(['middleware' => ['auth']], function () {
     # Profile
     Route::resource('profile', ProfileController::class);
     # Criteria
-    Route::resource('/criteria', CriteriaController::class);
-    # Alternative
-    Route::resource('/alternative', AlternativeController::class);
-    # Calculation
-    Route::resource('/calculation', Vikor_CalculationController::class);
-    # Schoolarship Recommendation
+    Route::resource('criteria', CriteriaController::class);
     // Route::get('/criteria',[CriteriaController::class,'index']);
-    Route::get('/search', [CriteriaController::class, 'search']);
+    Route::get('search', [CriteriaController::class, 'search']);
+    # Alternative
+    Route::resource('alternative', AlternativeController::class);
+    # Calculation
+    Route::resource('calculation', Vikor_CalculationController::class);
+    # Scholarship Recommendation
+    Route::resource('scholarshiprecommendation', \App\Http\Controllers\SRController::class);
 });

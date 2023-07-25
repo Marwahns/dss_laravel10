@@ -9,18 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
-class Vikor_CalculationController extends Controller
+class SRController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    function __construct()
-    {
-        $this->middleware('permission:vikor-calculation');
-    }
-
     /**
      * index
      *
@@ -28,16 +18,14 @@ class Vikor_CalculationController extends Controller
      */
     public function index(Request $request)
     {
-        $pageTitle = 'VIKOR | Calculation';
-        $breadcrumb = 'Calculation'; # breadcrumb
+        $pageTitle = 'VIKOR | Scholarship Recommendation';
+        $breadcrumb = 'Scholarship Recommendation'; # breadcrumb
 
         $tb_sample = new Sample();
         $tb_alternative = new Alternative();
         $tb_criteria = new Criteria();
         $countDataAlternative = $tb_alternative->count();
         $countDataCriteria = $tb_criteria->count();
-
-        $countAlternatives = Alternative::all();
 
         # get data samples for pagination
         $samples = Sample::latest()->paginate(10);
@@ -89,7 +77,7 @@ class Vikor_CalculationController extends Controller
         [$dataCheckAcceptableStability] = $this->checkAcceptableStability($dataCalculateRankings['rankingsB'], $dataCalculateRankings['rankingsC'], $dataCalculateRankings['qValueBestAlternative'], $dataCalculateRankings['alternativeWithMinQs'], $dataCalculateRankings['alternativeWithMinQsB'], $dataCalculateRankings['alternativeWithMinQsC']);
 
         # Render view
-        return view('calculation.index', compact('getAlternative', 'samples', 'countDataAlternative', 'countDataCriteria', 'pageTitle', 'breadcrumb', 'criterion', 'alternatives', 'totalWeight', 'dataCalculateMinMaxValues', 'matrixNormalized', 'weightedNormalizedValues', 'dataCalculateUtilityMeasures', 'dataCalculateQValues', 'dataCalculateRankings', 'dataCheckAcceptableAdvantage', 'dataCheckAcceptableStability', 'countAlternatives'));
+        return view('scholarshiprecommendation.index', compact('getAlternative', 'samples', 'countDataAlternative', 'countDataCriteria', 'pageTitle', 'breadcrumb', 'criterion', 'alternatives', 'totalWeight', 'dataCalculateMinMaxValues', 'matrixNormalized', 'weightedNormalizedValues', 'dataCalculateUtilityMeasures', 'dataCalculateQValues', 'dataCalculateRankings', 'dataCheckAcceptableAdvantage', 'dataCheckAcceptableStability'));
     }
 
     public function debugging($getAlternative, $criterion)
