@@ -143,7 +143,10 @@
             <script>
               document.write(new Date().getFullYear());
             </script>
-            Soft by Creative Tim.
+            <br>
+            Made with <i class="fa fa-heart"></i> by
+            <a href="https://www.creative-tim.com" class="font-semibold text-slate-700" target="_blank">Michael & Creative Tim</a>
+            for a better web.
           </p>
         </div>
       </div>
