@@ -70,11 +70,11 @@ class Vikor_CalculationController extends Controller
         # Call function calculateMinMaxValues
         [$matrixNormalized] = $this->calculateNormalizedValues($getAlternative, $criterion, $dataCalculateMinMaxValues['maxValues'], $dataCalculateMinMaxValues['minValues']);
 
-        # Call function calculateMinMaxValues
+        # Call function calculateWeightedNormalizedValues
         [$weightedNormalizedValues] = $this->calculateWeightedNormalizedValues($matrixNormalized, $criterion);
 
         # Call function calculateUtilityMeasures
-        [$dataCalculateUtilityMeasures] = $this->calculateUtilityMeasures($criterion, $matrixNormalized);
+        [$dataCalculateUtilityMeasures] = $this->calculateUtilityMeasures($criterion, $matrixNormalized, $weightedNormalizedValues);
 
         # Call function calculateQValues
         [$dataCalculateQValues] = $this->calculateQValues($dataCalculateUtilityMeasures['utilityMeasuresS'], $dataCalculateUtilityMeasures['utilityMeasuresR'], $getAlternative);
@@ -208,7 +208,7 @@ class Vikor_CalculationController extends Controller
         return [$weightedNormalizedValues];
     }
 
-    public function calculateUtilityMeasures($criterion, $matrixNormalized)
+    public function calculateUtilityMeasures($criterion, $matrixNormalized, $weightedNormalizedValues)
     {
         $weights = [];
 
@@ -231,18 +231,26 @@ class Vikor_CalculationController extends Controller
 
             $utilityMeasuresS[] = $S;
 
-            $maxValue = max($row); # Get the maximum value in the row
+            foreach ($weightedNormalizedValues as $rowNormalized) {
+                $R = max($rowNormalized); # Get the maximum value in the row
+                $utilityMeasuresR[] = $R;
 
-            # Find the index of the maximum value in the row
-            $index = array_search($maxValue, $row);
+                // print_r($R);
+                // die();
+            }
 
-            # Retrieve the weight for the corresponding criterion
-            $weight = $weights[$index];
+            // $maxValue = max($row); # Get the maximum value in the row
 
-            # Calculate the utility measure (R) by multiplying the maximum value with the weight
-            $R = $maxValue * $weight;
+            // # Find the index of the maximum value in the row
+            // $index = array_search($maxValue, $row);
 
-            $utilityMeasuresR[] = $R;
+            // # Retrieve the weight for the corresponding criterion
+            // $weight = $weights[$index];
+
+            // # Calculate the utility measure (R) by multiplying the maximum value with the weight
+            // $R = $maxValue * $weight;
+
+            // $utilityMeasuresR[] = $R;
         }
 
         # Prepare data to be sent to the view

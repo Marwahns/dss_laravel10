@@ -92,11 +92,11 @@
                   </form>
                 </div>
                 <div class="p-6 px-1 pt-0 text-center bg-transparent border-t-0 border-t-solid rounded-b-2xl lg:px-2">
-                  <p class="mx-auto mb-3 leading-normal text-sm">
+                  <!-- <p class="mx-auto mb-3 leading-normal text-sm">
                     @if (Route::has('password.request'))
                     {{ __('Forgot your password?') }}
                     <a class="relative z-10 font-semibold text-transparent bg-gradient-to-tl from-blue-600 to-cyan-400 bg-clip-text" href="{{ route('password.request') }}">Reset password</a>
-                  </p>
+                  </p> -->
                   <p class="mx-auto mb-3 leading-normal text-sm">
                     @endif
                     Don't have an account?

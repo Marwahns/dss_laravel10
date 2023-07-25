@@ -6,8 +6,11 @@ use \App\Http\Controllers\RoleController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\CriteriaController;
+use \App\Http\Controllers\SampleController;
 use \App\Http\Controllers\AlternativeController;
 use \App\Http\Controllers\Vikor_CalculationController;
+use \App\Http\Controllers\SRController;
+use App\Models\Sample;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,10 +52,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('criteria', CriteriaController::class);
     // Route::get('/criteria',[CriteriaController::class,'index']);
     Route::get('search', [CriteriaController::class, 'search']);
+    # Sample
+    Route::resource('sample', SampleController::class);
     # Alternative
     Route::resource('alternative', AlternativeController::class);
     # Calculation
     Route::resource('calculation', Vikor_CalculationController::class);
     # Scholarship Recommendation
-    Route::resource('scholarshiprecommendation', \App\Http\Controllers\SRController::class);
+    Route::resource('scholarshiprecommendation', SRController::class);
 });
