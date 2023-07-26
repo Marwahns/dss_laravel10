@@ -15,20 +15,44 @@ class AlternativeSeeder extends Seeder
     {
         $data = [
             [
-                'nama_alternative'  => 'Annisa Marfadilla',
-                'kode_alternative'      => 'A001'
+                'nama_alternative'  => 'T. Alfian',
+                'kode_alternative'  => 'A001'
             ],
             [
-                'nama_alternative'  => 'Marwah Nur Shafira ',
-                'kode_alternative'      => 'A002'
+                'nama_alternative'  => 'N. Firza ',
+                'kode_alternative'  => 'A002'
             ],
             [
-                'nama_alternative'  => 'Michael Natanael',
-                'kode_alternative'      => 'A003'
+                'nama_alternative'  => 'Gatot',
+                'kode_alternative'  => 'A003'
             ],
             [
-                'nama_alternative'  => 'Cut Azimah Noor Hanifah',
-                'kode_alternative'      => 'A004'
+                'nama_alternative'  => 'T. Usman',
+                'kode_alternative'  => 'A004'
+            ],
+            [
+                'nama_alternative'  => 'Hilmi',
+                'kode_alternative'  => 'A005'
+            ],
+            [
+                'nama_alternative'  => 'Vicky R ',
+                'kode_alternative'  => 'A006'
+            ],
+            [
+                'nama_alternative'  => 'Kevin',
+                'kode_alternative'  => 'A007'
+            ],
+            [
+                'nama_alternative'  => 'Zaki P',
+                'kode_alternative'  => 'A008'
+            ],
+            [
+                'nama_alternative'  => 'H. James',
+                'kode_alternative'  => 'A009'
+            ],
+            [
+                'nama_alternative'  => 'N. Reza',
+                'kode_alternative'  => 'A010'
             ],
         ];
 

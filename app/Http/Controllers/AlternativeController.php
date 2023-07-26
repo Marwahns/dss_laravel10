@@ -34,8 +34,10 @@ class AlternativeController extends Controller
         $alternatives = Alternative::latest()->paginate(10);
         $alternative_ = $tb_alternative->detailAlternative();
 
+        $countAlternatives = Alternative::all();
+
         //render view with posts
-        return view('alternative.alternative', compact('alternatives', 'alternative_', 'pageTitle', 'breadcrumb'));
+        return view('alternative.alternative', compact('alternatives', 'alternative_', 'pageTitle', 'breadcrumb', 'countAlternatives'));
     }
 
     /**

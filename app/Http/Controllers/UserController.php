@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Alternative;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use DB;
@@ -14,6 +15,8 @@ use Illuminate\Http\RedirectResponse;
 
 class UserController extends Controller
 {
+    private $countAlternatives;
+    
     /**
      * Display a listing of the resource.
      *
@@ -22,6 +25,8 @@ class UserController extends Controller
     function __construct()
     {
         $this->middleware('permission:user');
+        $this->countAlternatives = Alternative::all();
+
     }
 
     /**
@@ -34,7 +39,9 @@ class UserController extends Controller
         $data['pageTitle'] = 'VIKOR | Account Users'; // Judul halaman
         $data['breadcrumb'] = 'Account Users'; // breadcrumb
         $data['users'] = User::orderBy('id', 'DESC')->paginate(5);
-        return view('users.index', compact('data'))
+        $countAlternatives = $this->countAlternatives;
+
+        return view('users.index', compact('data', 'countAlternatives'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -45,8 +52,10 @@ class UserController extends Controller
      */
     public function create(): View
     {
+        $countAlternatives = $this->countAlternatives;
+
         $roles = Role::pluck('name', 'name')->all();
-        return view('users.create', compact('roles'));
+        return view('users.create', compact('roles', 'countAlternatives'));
     }
 
     /**
@@ -57,6 +66,8 @@ class UserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $data['countAlternatives'] = Alternative::all();
+
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
@@ -82,8 +93,10 @@ class UserController extends Controller
      */
     public function show($id): View
     {
+        $countAlternatives = $this->countAlternatives;
+
         $user = User::find($id);
-        return view('users.show', compact('user'));
+        return view('users.show', compact('user', 'countAlternatives'));
     }
 
     /**
@@ -94,11 +107,13 @@ class UserController extends Controller
      */
     public function edit($id): View
     {
+        $countAlternatives = $this->countAlternatives;
+
         $user = User::find($id);
         $roles = Role::pluck('name', 'name')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
 
-        return view('users.edit', compact('user', 'roles', 'userRole'));
+        return view('users.edit', compact('user', 'roles', 'userRole', 'countAlternatives'));
     }
 
     /**

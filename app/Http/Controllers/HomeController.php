@@ -21,8 +21,9 @@ class HomeController extends Controller
         $pageTitle = 'VIKOR | Dashboard'; // Judul halaman
         $breadcrumb = 'Dashboard'; // breadcrumb
         $alternatives = Alternative::count();
+        $countAlternatives = Alternative::All();
         $criterion = Criteria::count();
         $samples = Sample::count();
-        return view('home.home', compact('pageTitle', 'breadcrumb', 'alternatives', 'criterion', 'samples'));
+        return view('home.home', compact('pageTitle', 'breadcrumb', 'alternatives', 'criterion', 'samples', 'countAlternatives'));
     }
 }

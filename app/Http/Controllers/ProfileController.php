@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Alternative;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use DB;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
+    private $countAlternatives;
+
     /**
      * Display a listing of the resource.
      *
@@ -23,6 +26,7 @@ class ProfileController extends Controller
     function __construct()
     {
         $this->middleware('permission:profile');
+        $this->countAlternatives = Alternative::all();
     }
 
     /**
@@ -37,7 +41,11 @@ class ProfileController extends Controller
         $data['user'] = User::find(Auth::user()->id);
         $data['roles'] = Role::pluck('name', 'name')->all();
         $data['userRole'] = $data['user']->roles->pluck('name', 'name')->all();
-        return view('profile.index', compact('data'));
+
+        // Access the $countAlternatives variable from the class property
+        $countAlternatives = $this->countAlternatives;
+
+        return view('profile.index', compact('data', 'countAlternatives'));
     }
 
     /**

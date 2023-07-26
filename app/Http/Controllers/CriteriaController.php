@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alternative;
 use App\Models\Criteria;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -33,8 +34,10 @@ class CriteriaController extends Controller
         $criterion = Criteria::All();
         $total_Weight = Criteria::sum('weight');
 
+        $countAlternatives = Alternative::all();
+
         # render view 
-        return view('criteria.index', compact('criterion', 'pageTitle', 'breadcrumb', 'total_Weight'));
+        return view('criteria.index', compact('criterion', 'pageTitle', 'breadcrumb', 'total_Weight', 'countAlternatives'));
     }
 
     public function search(Request $request)
@@ -56,7 +59,9 @@ class CriteriaController extends Controller
 
         $total_Weight = Criteria::sum('weight');
 
-        return view('criteria.index', compact('criterion', 'search', 'pageTitle', 'breadcrumb', 'total_Weight'));
+        $countAlternatives = Alternative::all();
+
+        return view('criteria.index', compact('criterion', 'search', 'pageTitle', 'breadcrumb', 'total_Weight', 'countAlternatives'));
     }
 
 

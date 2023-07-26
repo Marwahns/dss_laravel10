@@ -23,6 +23,10 @@ class DatabaseSeeder extends Seeder
             CriteriaSeeder::class,
             AlternativeSeeder::class,
             SampleSeeder::class,
+            PermissionTableSeeder::class,
+            CreateSuperAdminUserSeeder::class,
+            RoleSeeder::class,
+            RoleHasPermissionSeeder::class,
         ]);
     }
 }

@@ -36,6 +36,7 @@ class SRController extends Controller
         $criterion =  $tb_criteria->detailCriteria();
         $alternatives = Alternative::all();
         $totalWeight = Criteria::sum('weight');
+        $countAlternatives = Alternative::all();
 
         foreach ($getAlternative as $key => $value) {
             $detailSampleByAlternativeId = $tb_sample->detailSample($value['id']);
@@ -77,7 +78,7 @@ class SRController extends Controller
         [$dataCheckAcceptableStability] = $this->checkAcceptableStability($dataCalculateRankings['rankingsB'], $dataCalculateRankings['rankingsC'], $dataCalculateRankings['qValueBestAlternative'], $dataCalculateRankings['alternativeWithMinQs'], $dataCalculateRankings['alternativeWithMinQsB'], $dataCalculateRankings['alternativeWithMinQsC']);
 
         # Render view
-        return view('scholarshiprecommendation.index', compact('getAlternative', 'samples', 'countDataAlternative', 'countDataCriteria', 'pageTitle', 'breadcrumb', 'criterion', 'alternatives', 'totalWeight', 'dataCalculateMinMaxValues', 'matrixNormalized', 'weightedNormalizedValues', 'dataCalculateUtilityMeasures', 'dataCalculateQValues', 'dataCalculateRankings', 'dataCheckAcceptableAdvantage', 'dataCheckAcceptableStability'));
+        return view('scholarshiprecommendation.index', compact('getAlternative', 'samples', 'countDataAlternative', 'countDataCriteria', 'pageTitle', 'breadcrumb', 'criterion', 'alternatives', 'totalWeight', 'dataCalculateMinMaxValues', 'matrixNormalized', 'weightedNormalizedValues', 'dataCalculateUtilityMeasures', 'dataCalculateQValues', 'dataCalculateRankings', 'dataCheckAcceptableAdvantage', 'dataCheckAcceptableStability', 'countAlternatives'));
     }
 
     public function debugging($getAlternative, $criterion)
@@ -392,6 +393,8 @@ class SRController extends Controller
     {
         $pageTitle = 'VIKOR | Scholarship Recommendation';
         $breadcrumb = 'Scholarship Recommendation'; # breadcrumb
-        return view('scholarshiprecommendation.index', compact('pageTitle', 'breadcrumb', 'alternatives'));
+        $countAlternatives = Alternative::all();
+
+        return view('scholarshiprecommendation.index', compact('pageTitle', 'breadcrumb', 'alternatives', 'countAlternatives'));
     }
 }
