@@ -215,7 +215,7 @@
                                 </tr>
                                 @empty
                                 <div class="alert alert-danger flex justify-center">
-                                    Data Post belum Tersedia.
+                                    Data Scholarship Recommendation belum Tersedia.
                                 </div>
                                 @endforelse
                             </tbody>

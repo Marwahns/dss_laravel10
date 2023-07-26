@@ -161,8 +161,8 @@
                                             </td>
                                         </tr>
                                     @empty
-                                        <div class="alert alert-danger">
-                                            Data Post belum Tersedia.
+                                        <div class="alert alert-danger flex justify-center">
+                                            Data Sample belum Tersedia.
                                         </div>
                                     @endforelse
                                 </tbody>
