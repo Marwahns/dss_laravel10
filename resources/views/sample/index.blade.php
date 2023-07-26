@@ -167,7 +167,7 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            {{ $dataSamples->links('pagination::tailwind') }}
+                            <!-- {{ $dataSamples->links('pagination::tailwind') }} -->
                         </div>
                     </div>
                 </div>

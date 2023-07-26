@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Alternative;
 use App\Models\Criteria;
 use App\Models\Sample;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class HomeController extends Controller
 {
@@ -24,6 +26,8 @@ class HomeController extends Controller
         $countAlternatives = Alternative::All();
         $criterion = Criteria::count();
         $samples = Sample::count();
-        return view('home.home', compact('pageTitle', 'breadcrumb', 'alternatives', 'criterion', 'samples', 'countAlternatives'));
+        $users = User::count();
+        $roles = Role::count();
+        return view('home.home', compact('pageTitle', 'breadcrumb', 'alternatives', 'criterion', 'samples', 'users', 'roles', 'countAlternatives'));
     }
 }
