@@ -27,12 +27,12 @@ class CriteriaSeeder extends Seeder
             [
                 'criteria'  => 'Daya listrik',
                 'type'      => 'cost',
-                'weight'    => '0.09'
+                'weight'    => '0.1'
             ],
             [
                 'criteria'  => 'Jumlah tagihan listrik',
                 'type'      => 'cost',
-                'weight'    => '0.21'
+                'weight'    => '0.2'
             ],
         ];
 
